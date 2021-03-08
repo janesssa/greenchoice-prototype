@@ -3,7 +3,6 @@
 </template>
 
 <script>
-// import { ref, reactive, watch } from "vue";
 import useAuth from "./composables/use-auth";
 
 export default {
@@ -33,6 +32,8 @@ export default {
         localStorage.state = JSON.stringify(state);
       }
     }
+
+    return state;
   }
 };
 </script>
