@@ -1,18 +1,40 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
 </template>
 
-<script lang="ts">
-import { Options, Vue } from "vue-class-component";
-import HelloWorld from "./components/HelloWorld.vue";
+<script>
+// import { ref, reactive, watch } from "vue";
+import useAuth from "./composables/use-auth";
 
-@Options({
-  components: {
-    HelloWorld
+export default {
+  async setup() {
+    const today = new Date();
+    const timestamp = Date.now();
+    const state = {
+      accessToken: "",
+      tokenType: "",
+      expired: ""
+    };
+
+    if (localStorage.state) {
+      const json = JSON.parse(localStorage.state);
+      if (timestamp < json.expired) {
+        state.accesstoken = json.access_token;
+        state.tokenType = json.token_type;
+      }
+    } else {
+      const authentication = await useAuth();
+      if (authentication.error) {
+        console.log("No access to the API");
+      } else {
+        state.accessToken = authentication.access_token;
+        state.tokenType = authentication.token_type;
+        state.expired = today.setDate(today.getDate() + 1);
+        localStorage.state = JSON.stringify(state);
+      }
+    }
   }
-})
-export default class App extends Vue {}
+};
 </script>
 
 <style>
