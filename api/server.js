@@ -1,31 +1,31 @@
-import express, { static } from 'express';
-import { join } from 'path';
+const express = require('express');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
 const app = express();
-import { json } from "body-parser";
-      port = 3080;
+const PORT = 3000;
+const HOST = "0.0.0.0";
+const API_SERVICE_URL = "https://api.onzo.io/engagement/v2";
 
-// place holder for the data
-const users = [];
+app.get('/info', (req, res, next) => {
+  res.send('This is a proxy service which proxies to ONZO services')
+})
 
-app.use(json());
-app.use(static(join(__dirname, '../app/build')));
+app.use('', (req, res, next) => {
+  if(req.headers.authorization.includes('Bearer')){
+    next();
+  } else {
+    res.sendStatus(403);
+  }
+})
 
-app.get('/api/users', (req, res) => {
-  console.log('api/users called!')
-  res.json(users);
-});
+app.use('/onzo', createProxyMiddleware({
+  target: API_SERVICE_URL,
+  changeOrigin: true,
+  pathRewrite: {
+      [`^/onzo`]: '',
+  },
+}));
 
-app.post('/api/user', (req, res) => {
-  const user = req.body.user;
-  console.log('Adding user:::::', user);
-  users.push(user);
-  res.json("user addedd");
-});
-
-app.get('/', (req,res) => {
-  res.sendFile(join(__dirname, '../my-app/build/index.html'));
-});
-
-app.listen(port, () => {
-    console.log(`Server listening on the port::${port}`);
-});
+app.listen(PORT, HOST, () => {
+  console.log(`Starting Proxy at ${HOST}:${PORT}`)
+})

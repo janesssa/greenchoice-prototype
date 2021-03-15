@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  proxy:
+    build: 
+      context: ./api
+      dockerfile: Dockerfile
+    command: yarn start
+    volumes:
+      - ./api:/usr/api
+    container_name: proxy
+    ports:
+      - "3000:3000"
+  app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    # command: sh -c "yarn && yarn serve --host 0.0.0.0"
+    command: sh -c "yarn && ./node_modules/@vue/cli-service/commands/serve.js serve --host 0.0.0.0" #use local vue from container to save space on container size
+    ports:
+      - "8080:8080"
+    container_name: app
+    working_dir: /usr/app
+    volumes:
+       - ./app:/usr/app
