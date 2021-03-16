@@ -1,17 +1,17 @@
 import { ref } from "vue";
 import useFetch from "./use-fetch";
 import useLocalStorage from "./use-localstorage";
-import useAuth from "./use-auth";
 import { HOUSEHOLD_ID } from "../config";
 
 export default function() {
-  useAuth().then(async state => {
+  console.info('Getting access token and requesting user profile data')
+  useLocalStorage().then(async state => {
     const fetching = ref(true);
     const { response, request } = useFetch(
-      `https://api.onzo.io/engagement/v2/profile/${HOUSEHOLD_ID}`,
+      `${process.env.VUE_APP_API_URL}profile/${HOUSEHOLD_ID}`,
       {
         method: "GET",
-        headers: { Authorization: `${state.token_type} ${state.access_token}` }
+        headers: { Authorization: `${state.tokenType} ${state.accessToken}` }
       }
     );
 

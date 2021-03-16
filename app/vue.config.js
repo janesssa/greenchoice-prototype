@@ -4,7 +4,6 @@ module.exports = {
         watchOptions: {
             poll: true,
         },
-        https: true,
         proxy: {
             '^/api': {
                 target: 'http://proxy:3000',

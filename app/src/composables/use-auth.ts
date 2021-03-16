@@ -26,6 +26,7 @@ export default async function() {
   }
 
   if (!error.value) {
+    console.info('Succesfully requested the access token')
     return JSON.parse(JSON.stringify(authentication.value));
   }
 

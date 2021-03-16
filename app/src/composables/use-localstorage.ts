@@ -2,21 +2,22 @@ import useAuth from "./use-auth";
 
 export default async function() {
   const today = new Date();
-  const timestamp = Date.now();
+  const timestamp = Date.now(); 
   const state = {
     accessToken: "",
     tokenType: "",
     expired: 0
   };
 
-  if (localStorage.getItem("state")) {
+  console.info('Checking local storage for access token')
+  if (localStorage.getItem("state") && timestamp < JSON.parse(localStorage.state).expired) {
+    console.info('Succesfully found access token in local storage')
     const json = JSON.parse(localStorage.state);
-    if (timestamp < json.expired) {
-      state.accessToken = json.accessToken;
-      state.tokenType = json.tokenType;
-      state.expired = json.expired;
-    }
+    state.accessToken = json.accessToken;
+    state.tokenType = json.tokenType;
+    state.expired = json.expired;
   } else {
+    console.info('Access token not available or expired - requesting it...')
     useAuth().then(auth => {
       if (auth.error) {
         console.log("No access to the API");

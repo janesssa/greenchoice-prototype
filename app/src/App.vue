@@ -10,14 +10,6 @@ import useLocalStorage from "./composables/use-localstorage";
 import useUserDate from "./composables/use-userdata";
 export default {
   async setup() {
-    // await useFetch("https://api.onzo.com/engagement/", {
-    //   method: "OPTIONS",
-    //   headers: {
-    //     "Origin": "http://localhost:8080/",
-    //     "Access-Control-Request-Method": "POST",
-    //     "Access-Control-Request-Headers": "Content-Type, Authorization"
-    //   }
-    // });
     await useLocalStorage();
     useUserDate();
   }

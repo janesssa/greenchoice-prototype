@@ -5,7 +5,7 @@ services:
     build: 
       context: ./api
       dockerfile: Dockerfile
-    command: yarn start
+    command: yarn start.dev
     volumes:
       - ./api:/usr/api
     container_name: proxy
@@ -17,6 +17,9 @@ services:
       dockerfile: Dockerfile
     command: sh -c "yarn && yarn serve --host 0.0.0.0"
     # command: sh -c "rm -rf node_modules/ && yarn && ./node_modules/@vue/cli-service/lib/commands/serve.js serve --host 0.0.0.0" #use local vue from container to save space on container size # TODO: solve permission issues
+    environment: 
+      - NODE_ENV=development
+      - VUE_APP_API_URL=http://localhost:3000/
     ports:
       - "8080:8080"
     container_name: app
