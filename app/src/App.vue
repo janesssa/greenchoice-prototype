@@ -8,10 +8,15 @@
 <script>
 import useLocalStorage from "./composables/use-localstorage";
 import useUserDate from "./composables/use-userdata";
+import useOptions from "./composables/use-options";
 export default {
   async setup() {
     await useLocalStorage();
-    useUserDate();
+    useUserDate('profile');
+    useUserDate('ownership');
+    useOptions('consumption');
+    useOptions('breakdown');
+    useOptions('peer-group-stats');
   }
 };
 </script>

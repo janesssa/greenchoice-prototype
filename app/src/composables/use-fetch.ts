@@ -1,7 +1,7 @@
 import { ref } from "vue";
 
 export default function(url: RequestInfo, options?: RequestInit | undefined) {
-  console.info('Requesting information from: ', url)
+  console.info('Requesting information from:', url)
 
   const response = ref([]);
   const error = ref(null);
