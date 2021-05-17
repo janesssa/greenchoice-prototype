@@ -8,10 +8,8 @@ type Props = {
 }
 
 const Home:React.FC<Props>  = ({json}) => {
-  console.log(json)
   return (
     <div>hoi</div>
-    
   )
 }
 
