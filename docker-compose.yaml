@@ -13,16 +13,17 @@ services:
       - "3000:3000"
   app:
     build:
-      context: ./app
+      context: ./next-app
       dockerfile: Dockerfile
-    command: sh -c "yarn && yarn serve --host 0.0.0.0"
+    command: yarn run dev -p 8080
+    # command: sh -c "yarn && yarn serve --open --host 0.0.0.0"
     # command: sh -c "rm -rf node_modules/ && yarn && ./node_modules/@vue/cli-service/lib/commands/serve.js serve --host 0.0.0.0" #use local vue from container to save space on container size # TODO: solve permission issues
     environment: 
       - NODE_ENV=development
-      - VUE_APP_API_URL=http://localhost:3000/
+      - NEXT_APP_API_URL=http://localhost:3000/
     ports:
       - "8080:8080"
     container_name: app
     working_dir: /usr/app
     volumes:
-       - ./app:/usr/app
+       - ./next-app:/usr/app
