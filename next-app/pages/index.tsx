@@ -4,7 +4,7 @@ import * as React from 'react'
 import { useState } from 'react'
 import styles from 'styles/Home.module.scss'
 import useThemeDetector from 'utilities/hooks/useTheme'
-import Title from 'utilities/components/atoms/Title'
+import Header from 'utilities/components/molecules/Header'
 
 type Props = {
   json: (e: React.FormEvent) => void
@@ -17,8 +17,7 @@ const Home:React.FC<Props>  = ({json}) => {
     <div className={styles.phone}>
       <i></i>
       <b></b>
-      <Title pos={1} text="Mijn" />
-      <Title pos={2} text="Verbruik" />
+      <Header />
     </div>
     </div>
   )
