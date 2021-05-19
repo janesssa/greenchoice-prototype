@@ -13,17 +13,9 @@ $secondary-t: #ff813c;
 $font-family: "Bebas Neue", cursive;
 
 .container {
-    display: flex;
-    position: relative;
-    height: 15em;
-    background-color: $primary;
-    justify-content: center;
-    z-index: -2;
+
 }
 
-.tabbar {
-    bottom: 0;
-    width: 90%;
-    max-height: 5em;
-    background-color: black;
+.active {
+    
 }
