@@ -11,6 +11,6 @@ module.exports = {
     },
     distDir: ".next",
     sassOptions: {
-        additionalData: '@use "styles/colors";'
+        additionalData: '@forward "styles/colors";'
     }
 };

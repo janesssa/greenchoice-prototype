@@ -1,5 +1,12 @@
-// @use 'styles/theme';
-@use 'sass:meta';
+$alpha: #e5e5e5;
+$beta: #2f3132;
+$primary: #8bc241;
+$primary-dark: #0f5532;
+$secondary-d: #fac45e;
+$secondary-i: #d1edf7;
+$secondary-b: #0091ff;
+$secondary-a: #ef5046;
+$secondary-t: #ff813c;
 
 .container {
     display: flex;
@@ -11,18 +18,12 @@
     max-height: 36px;
 }
 
-@debug meta.global-variable-exists("alpha");
-
 .upper {
-    @include themed() {
-        background-color: t('primary-dark');
-        // color: t($alpha)
-    }
+    background-color: $primary-dark;
+    color: $alpha;
 }
 
 .lower {
-    @include themed() {
-        // background-color: t($alpha);
-        // color: t($primary-dark)
-    }
+    background-color: $alpha;
+    color: $primary-dark;
 }
