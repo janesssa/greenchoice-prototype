@@ -1,3 +1,6 @@
+@use 'styles/theme';
+@use 'sass:meta';
+
 .container {
     display: flex;
     flex-direction: row;
@@ -8,8 +11,18 @@
     max-height: 36px;
 }
 
-.green {
+@debug meta.global-variable-exists("themes");
+
+.upper {
     @include themed() {
-        background-color: t($primary-dark);
+        background-color: t('primary-dark');
+        // color: t($alpha)
+    }
+}
+
+.lower {
+    @include themed() {
+        // background-color: t($alpha);
+        // color: t($primary-dark)
     }
 }

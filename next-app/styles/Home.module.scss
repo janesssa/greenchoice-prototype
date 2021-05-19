@@ -5,15 +5,16 @@
   height: 780px;
   border-radius: 40px;
   box-shadow: 0px 0px 0px 11px #1f1f1f, 0px 0px 0px 13px #191919, 0px 0px 0px 20px #111;
-  
+  z-index: 100;
+
   &:before,
-  &:after{
-    content: '';
+  &:after {
+    content: "";
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
   }
-  
+
   // home button indicator
   &:after {
     bottom: 7px;
@@ -22,7 +23,7 @@
     background-color: #f2f2f2;
     border-radius: 10px;
   }
-  
+
   // frontal camera/speaker frame
   &:before {
     top: 0px;
@@ -31,15 +32,16 @@
     background-color: #1f1f1f;
     border-radius: 0px 0px 40px 40px;
   }
-  
+
   i,
   b,
   span {
     position: absolute;
     display: block;
     color: transparent;
+    z-index: 100;
   }
-  
+
   // speaker
   i {
     top: 0px;
@@ -51,7 +53,7 @@
     border-radius: 8px;
     box-shadow: inset 0px -3px 3px 0px rgba(256, 256, 256, 0.2);
   }
-  
+
   // camera
   b {
     left: 10%;
@@ -62,9 +64,9 @@
     background-color: #101010;
     border-radius: 12px;
     box-shadow: inset 0px -3px 2px 0px rgba(256, 256, 256, 0.2);
-    
+
     &:after {
-      content: '';
+      content: "";
       position: absolute;
       background-color: #2d4d76;
       width: 6px;

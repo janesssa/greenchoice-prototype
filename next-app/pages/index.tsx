@@ -13,10 +13,12 @@ type Props = {
 const Home:React.FC<Props>  = ({json}) => {
   const [theme, setTheme] = useState(useThemeDetector())
   return (
-    <div className={styles.container + theme}>
+    <div className={styles.container}>
+    <div className={styles.phone}>
       <i></i>
       <b></b>
-      <Title></Title>
+      <Title pos={1} text="Mijn" />
+    </div>
     </div>
   )
 }

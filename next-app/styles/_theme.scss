@@ -1,7 +1,7 @@
 $themes: (
     default: (
-        bg: #e5e5e5,
-        text: #2f3132,
+        alpha: #e5e5e5,
+        beta: #2f3132,
         primary: #8bc241,
         primary-dark: #0f5532,
         secondary-d: #fac45e,
@@ -11,8 +11,8 @@ $themes: (
         secondary-t: #ff813c,
     ),
     dark: (
-        bg: #2f3132,
-        text: #e5e5e5,
+        alpha: #2f3132,
+        beta: #e5e5e5,
         primary: #8bc241,
         primary-dark: #0f5532,
         secondary-d: #fac45e,

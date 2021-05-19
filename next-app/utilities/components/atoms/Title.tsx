@@ -1,10 +1,15 @@
 import React from 'react'
 import styles from 'styles/atoms/Title.module.scss'
 
-const Titel = (pos: number, text: String) => {
+type TitleProps = {
+    pos: number,
+    text: String
+}
+
+const Title = ({pos, text}: TitleProps) => {
     if(pos === 1){
         return(
-            <div className={styles.container + styles.green}>
+            <div className={`${styles.container} ${styles.upper}`}>
                 <h1 className={styles.title}>
                     {text}
                 </h1>
@@ -13,7 +18,7 @@ const Titel = (pos: number, text: String) => {
     } 
 
     return (
-        <div className={styles.container}>
+        <div className={`${styles.container} ${styles.lower}`}>
             <h1 className={styles.title}>
                 {text}
             </h1>
@@ -21,4 +26,4 @@ const Titel = (pos: number, text: String) => {
     )
 }
 
-export default Titel
+export default Title
