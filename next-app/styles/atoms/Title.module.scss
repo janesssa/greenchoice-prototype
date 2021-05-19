@@ -11,10 +11,16 @@ $secondary-t: #ff813c;
 
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 $font-family: "Bebas Neue", cursive;
+$font-weight: 400;
 
 .container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
     position: absolute;
     padding: 0 7px;
+    max-height: 35px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.24);
 }
 
 .upper {
@@ -28,7 +34,7 @@ $font-family: "Bebas Neue", cursive;
 
 .lower {
     left: 25px;
-    top: 90px;
+    top: 80px;
     background-color: $alpha;
     color: $primary-dark;
     z-index: -1;
@@ -36,5 +42,6 @@ $font-family: "Bebas Neue", cursive;
 
 .title {
     font-family: $font-family;
+    font-weight: $font-weight;
     margin: auto;
 }
