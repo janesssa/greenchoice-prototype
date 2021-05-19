@@ -18,6 +18,7 @@ const Home:React.FC<Props>  = ({json}) => {
       <i></i>
       <b></b>
       <Title pos={1} text="Mijn" />
+      <Title pos={2} text="Verbruik" />
     </div>
     </div>
   )
