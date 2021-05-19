@@ -8,12 +8,12 @@ const Header = () => {
         <div className={styles.container}>
             <Title pos={1} text="Mijn" />
             <Title pos={2} text="Verbruik" />
-            <span className={styles.tabbar}>
-                <Tab src='' text='Stroom' />
-                <Tab src='' text='Gas' />
-                <Tab src='' text='Live' />
-                <Tab src='' text='Apparaten' />
-            </span>
+            <div className={styles.tabbar}>
+                <Tab src='/icons/electricity.svg' text='Stroom' />
+                <Tab src='/icons/gas.svg' text='Gas' />
+                <Tab src='/icons/live.svg' text='Live' />
+                <Tab src='/icons/devices.svg' text='Apparaten' />
+            </div>
 
         </div>
     )

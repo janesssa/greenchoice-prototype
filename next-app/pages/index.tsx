@@ -5,6 +5,7 @@ import { useState } from 'react'
 import styles from 'styles/Home.module.scss'
 import useThemeDetector from 'utilities/hooks/useTheme'
 import Header from 'utilities/components/molecules/Header'
+import Navbar from 'utilities/components/molecules/Navbar'
 
 type Props = {
   json: (e: React.FormEvent) => void
@@ -18,6 +19,7 @@ const Home:React.FC<Props>  = ({json}) => {
       <i></i>
       <b></b>
       <Header />
+      <Navbar />
     </div>
     </div>
   )

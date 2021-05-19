@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@svgr/webpack": "^5.5.0",
     "css-loader": "^5.2.4",
     "next": "10.2.0",
     "next-http-proxy-middleware": "^1.0.10",
