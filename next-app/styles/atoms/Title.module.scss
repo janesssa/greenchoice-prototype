@@ -1,4 +1,4 @@
-@use 'styles/theme';
+// @use 'styles/theme';
 @use 'sass:meta';
 
 .container {
@@ -11,7 +11,7 @@
     max-height: 36px;
 }
 
-@debug meta.global-variable-exists("themes");
+@debug meta.global-variable-exists("alpha");
 
 .upper {
     @include themed() {
