@@ -18,7 +18,6 @@ $font-family: "Bebas Neue", cursive;
     height: 12em;
     background-color: $primary;
     justify-content: center;
-    z-index: -2;
 }
 
 .tabbar {
@@ -31,4 +30,5 @@ $font-family: "Bebas Neue", cursive;
 
     overflow-x: scroll;
     scrollbar-width: none;
+    z-index: 2;
 }
