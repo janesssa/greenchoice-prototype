@@ -30,7 +30,6 @@ function AuthProvider({ children }) {
   useEffect(() => {
     // Check that a new route is OK
     const handleRouteChange = url => {
-      debugger
       if (url !== '/' && user === '') {
         window.location.href = '/'
       }
