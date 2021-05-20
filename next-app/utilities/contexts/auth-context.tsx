@@ -15,10 +15,10 @@ function AuthProvider({ children }) {
   const { householdID } = useHouseholdContext()
 
   const getUser = () => {
-      if (isNaN(householdID as any) && householdID.length === 4) {
-        setUser('')
-      } else {
+      if (/^\d+$/.test(householdID) && householdID.length === 4) {
         setUser(householdID)
+      } else {
+        setUser('')
       }
   }
 
@@ -28,9 +28,9 @@ function AuthProvider({ children }) {
   }, [pathname])
 
   useEffect(() => {
-      console.log(user)
     // Check that a new route is OK
     const handleRouteChange = url => {
+      debugger
       if (url !== '/' && user === '') {
         window.location.href = '/'
       }
@@ -42,8 +42,9 @@ function AuthProvider({ children }) {
     }
 
     // Monitor routes
-    events.on('routeChangeStart', handleRouteChange)
+    // events.on('routeChangeStart', handleRouteChange)
     return () => {
+      console.log('return')
       events.off('routeChangeStart', handleRouteChange)
     }
   }, [user])
