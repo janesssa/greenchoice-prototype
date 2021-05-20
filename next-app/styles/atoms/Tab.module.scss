@@ -16,11 +16,13 @@ $text: "Roboto", sans-serif;
 .container {
     display: flex;
     background-color: rgba($alpha, .75);
-    padding: 0.5em;
-    margin: 0   0.2em;
+    padding: .7em;
+    margin: 0 .2em;
     justify-content: space-evenly;
     border-radius: 0.2em 0.2em 0 0;
     font-family: $text;
+    height: 3em;
+    font-size: 0.8em;
 }
 
 .text {
@@ -28,5 +30,8 @@ $text: "Roboto", sans-serif;
 }
 
 .active {
-
+    background-color: $alpha;
+    padding: 1em .5em;
+    font-weight: bold;
+    font-size: 1em;
 }

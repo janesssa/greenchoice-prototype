@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router' 
 import styles from 'styles/atoms/Tab.module.scss'
 
 type TabProps = {
@@ -11,6 +12,7 @@ type TabProps = {
 }
 
 const Tab = ({text, src, type, href}: TabProps) => {
+    const router = useRouter()
     if(type.includes('tabbar')){
         if(type.includes('disabled')){
             return (
@@ -26,13 +28,11 @@ const Tab = ({text, src, type, href}: TabProps) => {
                 </div>
             )
         } else {
-            const linkProps = {
-                class: styles.container
-            }
+            console.log(router.pathname == href ? `${styles.active}` : `${styles.container}`)
     
             return (
                 <Link href={href}>
-                    <a className={styles.container}>
+                    <a className={router.pathname == href ? `${styles.container} ${styles.active}` : `${styles.container}`}>
                         <Image
                             src={src}
                             alt=""
