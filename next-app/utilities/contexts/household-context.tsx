@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
 
 type HouseholdType = {
-    householdID: string
+    householdID: string,
     setHouseholdID: Dispatch<SetStateAction<string>>
 }
 
@@ -13,7 +13,7 @@ export const HouseholdContext = createContext<HouseholdType>({
 export const useHouseholdContext = () => useContext(HouseholdContext)
 
 
-export const HouseholdStoreProvider = ({ children }) => {
+export const HouseholdProvider = ({ children }) => {
 
     const [householdID, setHouseholdID] = useState<string>('');
 
