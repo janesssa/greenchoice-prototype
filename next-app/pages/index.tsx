@@ -4,7 +4,7 @@ import * as React from 'react'
 import styles from 'styles/Home.module.scss'
 import Button from 'utilities/components/atoms/Button'
 import useUserData from 'utilities/hooks/useUserData'
-import { useHouseholdContext, HouseholdContext } from 'utilities/household-context'
+import { useHouseholdContext, HouseholdContext } from 'utilities/contexts/household-context'
 
 type Props = {
   json: (e: React.FormEvent) => void

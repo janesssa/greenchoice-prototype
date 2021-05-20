@@ -5,10 +5,11 @@ import styles from 'styles/molecules/Card.module.scss'
 
 type CardType = {
     type?: string,
-    title?: string 
+    title?: string,
+    children?: React.ReactNode
 }
 
-const Card = ({type, title}: CardType) => {
+const Card = ({type, title, children}: CardType) => {
     if(type === 'tab') {
         return (
             <div className={styles.container}>
@@ -17,7 +18,7 @@ const Card = ({type, title}: CardType) => {
                     <Tab text='Kwartier' />
                 </div>
                 <div>
-                    grafiek
+                    {children}
                 </div>
             </div>
         )
@@ -30,13 +31,14 @@ const Card = ({type, title}: CardType) => {
                     <h1>{title}</h1>
                     <p>{'>'}</p>
                 </div>
+                {children}
             </div>
         )
     }
 
     return (
         <div>
-            
+            {children}
         </div>
     )
 }

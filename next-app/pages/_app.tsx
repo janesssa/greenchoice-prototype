@@ -1,6 +1,6 @@
 import '../styles/globals.scss'
 import type { AppProps } from 'next/app'
-import { HouseholdStoreProvider } from 'utilities/household-context'
+import { HouseholdStoreProvider } from 'utilities/contexts/household-context'
 
 
 function MyApp({ Component, pageProps }: AppProps) {
