@@ -11,15 +11,11 @@ $secondary-t: #ff813c;
 
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 $font-family: "Bebas Neue", cursive;
-$text: "Roboto", sans-serif;
 
 .container {
-    position: absolute;
-    bottom: 0;
-    height: 5em;
-    width: 100%;
+
+}
+
+.tabbar {
     
-    background: $alpha;
-    box-shadow: 0px -0.5px 0px rgba(0, 0, 0, 0.3);
-    z-index: -2;
 }

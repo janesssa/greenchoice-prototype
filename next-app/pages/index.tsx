@@ -11,16 +11,28 @@ type Props = {
   json: (e: React.FormEvent) => void
 }
 
-const Home:React.FC<Props>  = ({json}) => {
-  const [theme, setTheme] = useState(useThemeDetector())
+const Home: React.FC<Props> = ({ json }) => {
+  const onSubmit = () => {
+    
+  }
+  
   return (
     <div className={styles.container}>
-    <div className={styles.phone}>
-      <i></i>
-      <b></b>
-      <Header />
-      <Navbar />
-    </div>
+      <div className={styles.phone}>
+        <i></i>
+        <b></b>
+        <div className={styles.background}>
+          <div className={styles.formcontainer}>
+            <h1>Welkom!</h1>
+            <p>Voer hier je klantnummer in en krijg inzicht in je verbruik</p>
+            <form className={styles.form}>
+              <label htmlFor="householdID">Klantnummer</label>
+              <input type="text" name="householdID" required />
+              <button type="submit" onSubmit={}>Start!</button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

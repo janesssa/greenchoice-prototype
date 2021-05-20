@@ -9,10 +9,10 @@ const Header = () => {
             <Title pos={1} text="Mijn" />
             <Title pos={2} text="Verbruik" />
             <div className={styles.tabbar}>
-                <Tab src='/icons/electricity.svg' text='Stroom' />
-                <Tab src='/icons/gas.svg' text='Gas' />
-                <Tab src='/icons/live.svg' text='Live' />
-                <Tab src='/icons/devices.svg' text='Apparaten' />
+                <Tab type='tabbar' src='/icons/electricity.svg' text='Stroom' />
+                <Tab type='tabbar' src='/icons/gas.svg' text='Gas' />
+                <Tab type='tabbar' src='/icons/live.svg' text='Live' />
+                <Tab type='tabbar' src='/icons/devices.svg' text='Apparaten' />
             </div>
 
         </div>
