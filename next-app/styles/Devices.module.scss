@@ -1,0 +1,20 @@
+$alpha: #ffffff;
+$beta: #2f3132;
+$charlie: #e5e5e5;
+$primary: #8bc241;
+$primary-dark: #0f5532;
+$secondary-d: #fac45e;
+$secondary-i: #d1edf7;
+$secondary-b: #0091ff;
+$secondary-a: #ef5046;
+$secondary-t: #ff813c;
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+$font-family: "Bebas Neue", cursive;
+$text: 'Roboto', sans-serif;
+
+.divider {
+    height: 0;
+    width: 100%;
+    box-shadow: 0px 1px 0px $charlie; 
+}

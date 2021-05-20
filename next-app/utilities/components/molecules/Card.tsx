@@ -2,14 +2,16 @@ import React from 'react'
 import Image from 'next/image'
 import Tab from 'utilities/components/atoms/Tab'
 import styles from 'styles/molecules/Card.module.scss'
+import Button from 'utilities/components/atoms/Button'
 
 type CardType = {
     type?: string,
     title?: string,
-    children?: React.ReactNode
+    children?: React.ReactNode,
+    btntext?: string
 }
 
-const Card = ({type, title, children}: CardType) => {
+const Card = ({type, title, children, btntext}: CardType) => {
     if(type === 'tab') {
         return (
             <div className={styles.container}>
@@ -27,17 +29,18 @@ const Card = ({type, title, children}: CardType) => {
     if(type === 'title') {
         return (
             <div className={styles.container}>
-                <div>
-                    <h1>{title}</h1>
-                    <p>{'>'}</p>
+                <div className={styles.title}>
+                    <h3>{title}</h3>
+                    <h3>{'>'}</h3>
                 </div>
                 {children}
+                <Button href='/404' text={btntext} />
             </div>
         )
     }
 
     return (
-        <div>
+        <div className={styles.container}>
             {children}
         </div>
     )
