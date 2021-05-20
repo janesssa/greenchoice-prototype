@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from 'styles/Home.module.scss'
+import styles from 'styles/atoms/Phone.module.scss'
 
 
 const Phone = ({children}) => {
