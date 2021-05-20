@@ -1,24 +1,14 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import * as React from 'react'
 import styles from 'styles/Home.module.scss'
 import Button from 'utilities/components/atoms/Button'
 import useUserData from 'utilities/hooks/useUserData'
-import { useHouseholdContext, HouseholdContext } from 'utilities/contexts/household-context'
+import { useHouseholdContext } from 'utilities/contexts/household-context'
+import Phone from 'utilities/components/atoms/Phone'
 
-type Props = {
-  json: (e: React.FormEvent) => void
-}
-
-const Home: React.FC<Props> = ({ json }) => {
+const Home: React.FC = () => {
   const { householdID, setHouseholdID } = useHouseholdContext()
 
   return (
-    <div className={styles.container}>
-      <div className={styles.phone}>
-        <i></i>
-        <b></b>
-      </div>
+    <Phone>
       <div className={styles.background}>
         <div className={styles.formcontainer}>
           <h1>Welkom!</h1>
@@ -30,7 +20,7 @@ const Home: React.FC<Props> = ({ json }) => {
           </form>
         </div>
       </div>
-    </div>
+    </Phone>
   )
 }
 
