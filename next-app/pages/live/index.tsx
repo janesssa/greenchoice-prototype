@@ -1,10 +1,13 @@
 import React from 'react'
+import { useHouseholdContext } from 'utilities/household-context'
+import Layout from 'utilities/components/organisms/Layout'
 
 const Live = () => {
+    const { householdID } = useHouseholdContext()
     return (
-        <div>
-            
-        </div>
+        <Layout>
+            {JSON.stringify(householdID)}
+        </Layout>
     )
 }
 
