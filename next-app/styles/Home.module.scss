@@ -13,8 +13,6 @@ $secondary-t: #ff813c;
 $font-family: "Bebas Neue", cursive;
 $text: "Roboto", sans-serif;
 
-
-
 .background {
   position: absolute;
   display: flex;
@@ -37,4 +35,5 @@ $text: "Roboto", sans-serif;
 .form {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }

@@ -9,8 +9,9 @@ const Devices = () => {
     return (
         <Layout>
             <Card title='Totale verbruik'>
-                <h4>Totale verbruik</h4>
+                <h4 className={styles.title}>Totale verbruik</h4>
                 <span className={styles.divider}></span>
+                
             </Card>
             <Card type='title' title='Vergelijk jezelf'></Card>
             <Card type='title' title='Vergelijkbare huishoudens'></Card>

@@ -14,8 +14,11 @@ $font-family: "Bebas Neue", cursive;
 $text: "Roboto", sans-serif;
 
 .container {
+    display: flex;
+    max-width: 90%;
     background: $secondary-d;
-    border-radius: 4px;
     padding: .5em;
     margin: .5em 0;
+    justify-content: space-evenly;
+    border-radius: 4px;
 }

@@ -33,7 +33,9 @@ const Card = ({type, title, children, btntext}: CardType) => {
                     <h3>{title}</h3>
                     <h3>{'>'}</h3>
                 </div>
-                {children}
+                <div>
+                    {children}
+                </div>
                 <Button href='/404' text={btntext} />
             </div>
         )
