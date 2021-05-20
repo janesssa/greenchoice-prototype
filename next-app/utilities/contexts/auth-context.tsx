@@ -44,7 +44,6 @@ function AuthProvider({ children }) {
     // Monitor routes
     // events.on('routeChangeStart', handleRouteChange)
     return () => {
-      console.log('return')
       events.off('routeChangeStart', handleRouteChange)
     }
   }, [user])

@@ -28,8 +28,7 @@ const Tab = ({text, src, type, href}: TabProps) => {
                 </div>
             )
         } else {
-            console.log(router.pathname == href ? `${styles.active}` : `${styles.container}`)
-    
+           
             return (
                 <Link href={href}>
                     <a className={router.pathname == href ? `${styles.container} ${styles.active}` : `${styles.container}`}>
