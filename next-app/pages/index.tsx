@@ -6,6 +6,7 @@ import styles from 'styles/Home.module.scss'
 import useThemeDetector from 'utilities/hooks/useTheme'
 import Header from 'utilities/components/molecules/Header'
 import Navbar from 'utilities/components/molecules/Navbar'
+import Button from 'utilities/components/atoms/Button'
 
 type Props = {
   json: (e: React.FormEvent) => void
@@ -25,10 +26,10 @@ const Home: React.FC<Props> = ({ json }) => {
           <div className={styles.formcontainer}>
             <h1>Welkom!</h1>
             <p>Voer hier je klantnummer in en krijg inzicht in je verbruik</p>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={() => onSubmit()} >
               <label htmlFor="householdID">Klantnummer</label>
               <input type="text" name="householdID" required />
-              <button type="submit" onSubmit={}>Start!</button>
+              <Button href="/live" text="Start!" />
             </form>
           </div>
         </div>

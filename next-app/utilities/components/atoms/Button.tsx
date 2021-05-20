@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import Link from 'next/link'
 import styles from 'styles/atoms/Button.module.scss'
 
@@ -7,14 +7,12 @@ type ButtonType = {
     text: string
 }
 
-const Button = ({href, text}: ButtonType) => {
+const Button: FunctionComponent<ButtonType> = ({href, text}) => {
     return (
         <div className={styles.container}>
             <Link href={href} >
-                {text}
-                {'>'}
+                {text + '>'}
             </Link>
-
         </div>
     )
 }
