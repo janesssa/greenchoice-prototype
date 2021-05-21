@@ -12,3 +12,7 @@ $secondary-t: #ff813c;
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 $font-family: "Bebas Neue", cursive;
 $text: 'Roboto', sans-serif;
+
+.link {
+    color: $primary;
+}

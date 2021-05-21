@@ -8,11 +8,7 @@ const Devices = () => {
     const { householdID } = useHouseholdContext()
     return (
         <Layout>
-            <Card title='Totale verbruik'>
-                <h4 className={styles.title}>Totale verbruik</h4>
-                <span className={styles.divider}></span>
-                
-            </Card>
+            <Card title='Totale verbruik' />
             <Card type='title' title='Vergelijk jezelf'></Card>
             <Card type='title' title='Vergelijkbare huishoudens'></Card>
         </Layout>

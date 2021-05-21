@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import Tab from 'utilities/components/atoms/Tab'
 import styles from 'styles/molecules/Card.module.scss'
 import Button from 'utilities/components/atoms/Button'
@@ -43,6 +42,8 @@ const Card = ({type, title, children, btntext}: CardType) => {
 
     return (
         <div className={styles.container}>
+            <h4 className={styles.smallTitle}>{title}</h4>
+            <span className={styles.divider}></span>
             {children}
         </div>
     )

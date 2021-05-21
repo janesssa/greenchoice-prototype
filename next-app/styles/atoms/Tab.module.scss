@@ -17,12 +17,12 @@ $text: "Roboto", sans-serif;
     display: flex;
     background-color: rgba($alpha, .75);
     padding: .7em;
-    margin: 0 .2em;
     justify-content: space-evenly;
     border-radius: 0.2em 0.2em 0 0;
     font-family: $text;
     height: 3em;
     font-size: 0.8em;
+    color: $primary-dark;
 }
 
 .text {
@@ -34,4 +34,13 @@ $text: "Roboto", sans-serif;
     padding: 1em .5em;
     font-weight: bold;
     font-size: 1em;
+}
+
+.current {
+    font-weight: bold;
+    border-bottom: 2px solid $primary;
+}
+
+.disabled {
+    cursor: not-allowed;
 }
