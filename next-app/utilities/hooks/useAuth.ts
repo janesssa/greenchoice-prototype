@@ -2,7 +2,7 @@
 import { useState } from "react"
 import useFetch from "./useFetch";
 
-export default async function() {
+export default async function useAuth() {
   const [fetching, setFetching] = useState(true);
   const { response: authentication, error, request } = useFetch(
     "https://api.onzo.io/oauth/token",

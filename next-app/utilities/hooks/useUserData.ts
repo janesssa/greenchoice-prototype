@@ -1,13 +1,13 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import useFetch from "./useFetch";
 import useLocalStorage from "./useLocalstorage";
 
-const useUserData: (householdID: string) => void = (householdID: string) => {
+export default function useUserData (householdID: string) {
     console.info('Getting access token and requesting user profile data')
 
     const [fetching, setFetching] = useState(true)
 
-    useLocalStorage().then(async state => {
+    const res = useLocalStorage().then(async state => {
         const { response, request } = useFetch(
             `${process.env.NEXT_APP_API_URL}profile/${householdID}}`,
             {
@@ -21,7 +21,9 @@ const useUserData: (householdID: string) => void = (householdID: string) => {
             setFetching(false)
             console.log(JSON.parse(JSON.stringify(response)));
         }
-    })
-}
 
-export default useUserData
+        return { response }
+    })
+
+    return res
+}

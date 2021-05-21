@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function(url: RequestInfo, options?: RequestInit | undefined) {
+export default function useFetch(url: RequestInfo, options?: RequestInit | undefined) {
   const [response, setResponse] = useState([]);
   const [error, setError] = useState(null);
 

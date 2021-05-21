@@ -1,6 +1,6 @@
 import useAuth from "./useAuth";
 
-export default async function() {
+export default async function useLocalStorage() {
   const today = new Date();
   const timestamp = Date.now(); 
   const state = {
