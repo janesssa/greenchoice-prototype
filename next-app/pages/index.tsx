@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import styles from 'styles/Home.module.scss'
 import Button from 'utilities/components/atoms/Button'
-import useUserData from 'utilities/hooks/useUserData'
+import userData from 'utilities/hooks/useUserData'
 import { useHouseholdContext } from 'utilities/contexts/household-context'
 import Phone from 'utilities/components/atoms/Phone'
 
@@ -13,6 +13,8 @@ type HomeType = {
 
 const Home: React.FC<HomeType> = ({ json }) => {
   const { householdID, setHouseholdID, setAccessToken } = useHouseholdContext()
+  const res = userData()
+  const [profile, setProfile] = useState({})
 
   useEffect(() => {
     setAccessToken(json.access_token)
@@ -22,10 +24,9 @@ const Home: React.FC<HomeType> = ({ json }) => {
     }
   }, [json])
 
-
-  const onSubmit: () => void = () => {
-    const data = useUserData(householdID)
-    console.log(data)
+  const onSubmit = () => {
+    // setProfile(res)
+    console.log('res')
   }
 
   return (
@@ -34,7 +35,7 @@ const Home: React.FC<HomeType> = ({ json }) => {
         <div className={styles.formcontainer}>
           <h1>Welkom!</h1>
           <p>Voer hier je klantnummer in en krijg inzicht in je verbruik</p>
-          <form className={styles.form}  >
+          <form className={styles.form} >
             <label htmlFor="householdID">Klantnummer</label>
             <input type="text" name="householdID" value={householdID} onChange={(e) => setHouseholdID(e.target.value)} required />
             <Button href="/live" text="Start!" handleClick={() => onSubmit()} />
