@@ -3,16 +3,22 @@ import Link from 'next/link'
 import styles from 'styles/atoms/Button.module.scss'
 
 type ButtonType = {
-    href: string,
-    text: string
+    href?: string,
+    text: string,
+    handleClick?: (c?: any) => void
 }
 
-const Button: FunctionComponent<ButtonType> = ({href, text}) => {
+const Button: FunctionComponent<ButtonType> = ({href, text, handleClick}) => {
     return (
-        <div className={styles.container}>
-            <Link href={href} >
-                {text + '>'}
-            </Link>
+        <div onClick={handleClick} className={styles.container}>
+            {href && (
+                <Link href={href} >
+                    {text + '>'}
+                </Link>
+            )}
+            {!href && (
+                <a> {text} </a>
+            )}
         </div>
     )
 }

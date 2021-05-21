@@ -3,4 +3,6 @@
     overflow: scroll;
     scrollbar-width: none;
     margin: auto;
+    position: relative;
+    z-index: 3;
 }
