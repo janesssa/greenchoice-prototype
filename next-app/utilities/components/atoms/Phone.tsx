@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from 'styles/atoms/Phone.module.scss'
+import Navbar from '../molecules/Navbar'
 
 
 const Phone = ({children}) => {
@@ -9,7 +10,9 @@ const Phone = ({children}) => {
                 <i></i>
                 <b></b>
             </div>
-            {children}
+            <div className={styles.content}>
+                {children}
+            </div>
         </div>
     )
 }
