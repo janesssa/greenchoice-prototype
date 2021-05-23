@@ -1,10 +1,6 @@
 import { useState } from "react";
-import { useHouseholdContext } from "utilities/contexts/household-context"
 
-export default function useFetch(url: RequestInfo, options = {
-  method: "GET",
-  headers: { Authorization: `Bearer ${useHouseholdContext().access_token}` }
-}) {
+export default function useFetch(url: RequestInfo, options ) {
   const [response, setResponse] = useState([]);
   const [error, setError] = useState(null);
 

@@ -10,7 +10,13 @@ const userData = () => {
     const [fetching, setFetching] = useState(true)
 
     const res: {} = useLocalStorage().then(async state => {
-        const { response, request } = useFetch(`${process.env.NEXT_APP_API_URL}profile/${householdID}}`);
+        const { response, request } = useFetch(
+            `${process.env.NEXT_APP_API_URL}profile/${householdID}}`,
+            {
+                method: "GET",
+                headers: { "Authorization": `Bearer ${useHouseholdContext().access_token}` }
+            }
+        );
 
         if (fetching) {
             await request();
