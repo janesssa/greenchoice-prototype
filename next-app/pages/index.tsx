@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import styles from 'styles/Home.module.scss'
 import Button from 'utilities/components/atoms/Button'
-import userData from 'utilities/hooks/useUserData'
+import useUserData from 'utilities/hooks/useUserData'
 import { useHouseholdContext } from 'utilities/contexts/household-context'
 import Phone from 'utilities/components/atoms/Phone'
 
@@ -12,22 +12,29 @@ type HomeType = {
 }
 
 const Home: React.FC<HomeType> = ({ json }) => {
-  const { householdID, setHouseholdID, setAccessToken } = useHouseholdContext()
-  const res = userData()
-  const [profile, setProfile] = useState({})
+  const { householdID, setHouseholdID, setAccessToken, access_token } = useHouseholdContext()
+  const [res, setRes] = useState({})
+
+  // const [profile, setProfile] = useState({})
+
+  const onSubmit = async () => {
+    const res = await fetch(
+      `/api/engagement/v2/profile/${householdID}`,
+      {
+          method: "GET",
+          headers: { "Authorization": `Bearer ${access_token}` }
+      })
+    console.log(res)
+  }
 
   useEffect(() => {
     setAccessToken(json.access_token)
-    console.log('set ' + json.access_token)
     return () => {
       setAccessToken('')
     }
   }, [json])
 
-  const onSubmit = () => {
-    // setProfile(res)
-    console.log('res')
-  }
+  console.log(res) 
 
   return (
     <Phone>
@@ -38,7 +45,7 @@ const Home: React.FC<HomeType> = ({ json }) => {
           <form className={styles.form} >
             <label htmlFor="householdID">Klantnummer</label>
             <input type="text" name="householdID" value={householdID} onChange={(e) => setHouseholdID(e.target.value)} required />
-            <Button href="/live" text="Start!" handleClick={() => onSubmit()} />
+            <Button href="/live" text="Start!" handleClick={onSubmit} />
           </form>
         </div>
       </div>

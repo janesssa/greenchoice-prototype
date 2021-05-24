@@ -15,7 +15,7 @@ function AuthProvider({ children }) {
   const { householdID } = useHouseholdContext()
 
   const getUser = () => {
-      if (/^\d+$/.test(householdID) && householdID.length === 4) {
+      if (/^\d+$/.test(householdID) && householdID.length === 7) {
         setUser(householdID)
       } else {
         setUser('')

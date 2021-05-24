@@ -5,7 +5,7 @@ import styles from 'styles/atoms/Button.module.scss'
 type ButtonType = {
     href?: string,
     text: string,
-    handleClick?: (c?: any) => void
+    handleClick?
 }
 
 const Button: FunctionComponent<ButtonType> = ({href, text, handleClick}) => {

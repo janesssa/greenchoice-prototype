@@ -1,33 +1,33 @@
 import React, { useState } from 'react'
+import useAuth from 'utilities/hooks/useAuth';
 import { useHouseholdContext } from 'utilities/contexts/household-context';
 import useFetch from "./useFetch";
-import useLocalStorage from "./useLocalstorage";
 
-
-const userData = () => {
+const userData = async () => {
     console.info('Getting access token and requesting user profile data')
     const { householdID } = useHouseholdContext()
     const [fetching, setFetching] = useState(true)
 
-    const res: {} = useLocalStorage().then(async state => {
-        const { response, request } = useFetch(
-            `${process.env.NEXT_APP_API_URL}profile/${householdID}}`,
-            {
-                method: "GET",
-                headers: { "Authorization": `Bearer ${useHouseholdContext().access_token}` }
-            }
-        );
-
-        if (fetching) {
-            await request();
-            setFetching(false)
-            console.log(JSON.parse(JSON.stringify(response)));
+    const { response, error, request } = useFetch(
+        `/api/engagement/v2/profile/${householdID}`,
+        {
+            method: "GET",
+            headers: { "Authorization": `Bearer ${useHouseholdContext().access_token}` }
         }
+    );
 
-        return { response }
-    })
+    if (fetching && householdID !== '') {
+        await request().then(res => console.log(res)).catch(err => console.log(err));
+        setFetching(false)
+    }
+    console.log(response, error)
 
-    return res
+    if(!error){
+        return response
+    }
+    
+
+    return { error }
 }
 
 export default userData
