@@ -1,0 +1,9 @@
+export const alpha = "#e5e5e5";
+export const beta= "#2f3132";
+export const primary = "#8bc241";
+export const primaryDark = "#0f5532";
+export const secondaryD= "#fac45e";
+export const secondaryI= "#d1edf7";
+export const secondaryB= "#0091ff";
+export const secondaryA= "#ef5046";
+export const secondaryT= "#ff813c";

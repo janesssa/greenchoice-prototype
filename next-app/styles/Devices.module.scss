@@ -12,3 +12,11 @@ $secondary-t: #ff813c;
 @import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 $font-family: "Bebas Neue", cursive;
 $text: 'Roboto', sans-serif;
+
+
+.pagination {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    align-items: center;
+}

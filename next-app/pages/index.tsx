@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import styles from 'styles/Home.module.scss'
 import Button from 'utilities/components/atoms/Button'
-import useUserData from 'utilities/hooks/useUserData'
 import { useHouseholdContext } from 'utilities/contexts/household-context'
 import Phone from 'utilities/components/atoms/Phone'
+import { useRouter } from 'next/router'
 
 type HomeType = {
   json: {
@@ -12,29 +12,30 @@ type HomeType = {
 }
 
 const Home: React.FC<HomeType> = ({ json }) => {
-  const { householdID, setHouseholdID, setAccessToken, access_token } = useHouseholdContext()
-  const [res, setRes] = useState({})
-
-  // const [profile, setProfile] = useState({})
-
+  const { householdID, setHouseholdID, setAccessToken, access_token, setResponse } = useHouseholdContext()
+  const router = useRouter()
   const onSubmit = async () => {
     const res = await fetch(
       `/api/engagement/v2/profile/${householdID}`,
       {
-          method: "GET",
-          headers: { "Authorization": `Bearer ${access_token}` }
-      })
-    console.log(res)
+        method: "GET",
+        headers: { "Authorization": `Bearer ${access_token}` }
+      }).then(res => res.json())
+      .then(data => data)
+      .catch(err => console.log(err))
+    setResponse(res)
+  }
+
+  const handleKeyPress = async (e) => {
+    if(e.key === 'Enter'){
+      await onSubmit()
+      router.push('/live')
+    }
   }
 
   useEffect(() => {
     setAccessToken(json.access_token)
-    return () => {
-      setAccessToken('')
-    }
   }, [json])
-
-  console.log(res) 
 
   return (
     <Phone>
@@ -44,7 +45,7 @@ const Home: React.FC<HomeType> = ({ json }) => {
           <p>Voer hier je klantnummer in en krijg inzicht in je verbruik</p>
           <form className={styles.form} >
             <label htmlFor="householdID">Klantnummer</label>
-            <input type="text" name="householdID" value={householdID} onChange={(e) => setHouseholdID(e.target.value)} required />
+            <input type="text" name="householdID" value={householdID} onChange={(e) => setHouseholdID(e.target.value)} required onKeyPress={(e) => handleKeyPress(e)} />
             <Button href="/live" text="Start!" handleClick={onSubmit} />
           </form>
         </div>

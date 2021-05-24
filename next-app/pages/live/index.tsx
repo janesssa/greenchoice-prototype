@@ -6,7 +6,7 @@ import styles from 'styles/Live.module.scss'
 import Button from 'utilities/components/atoms/Button'
 
 const Live = () => {
-    const { householdID } = useHouseholdContext()
+    const { householdID, response } = useHouseholdContext()
     return (
         <Layout>
             <Card type="tab" />
