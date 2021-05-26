@@ -7,6 +7,8 @@ import { primary, primaryDark, secondaryA, secondaryB, secondaryD, secondaryI, s
 import Loading from 'utilities/components/atoms/Loading'
 import Chart from "react-google-charts";
 import Button from 'utilities/components/atoms/Button'
+import { sortArray } from 'utilities/helpers'
+import useUserData from 'utilities/hooks/useUserData'
 
 const Devices = () => {
     const { householdID, access_token, response } = useHouseholdContext()
@@ -22,6 +24,8 @@ const Devices = () => {
     const year = today.getFullYear()
     const pastYear = year - 1
 
+    const res = useUserData()
+    console.log(res)
 
     useEffect(() => {
         console.log(today, monthNumber, year, pastYear)
@@ -145,7 +149,7 @@ const Devices = () => {
             return await Promise.all([getMean(), getPastYearsUsage(), getConsumption()])
                 .then(data => {
                     let values = []
-                    values.push(["Time", "Unit", {role: 'style'}])
+                    values.push(["Time", "Unit", { role: 'style' }])
                     data.forEach(item => {
                         values.push(item)
                     })
@@ -166,9 +170,70 @@ const Devices = () => {
                     headers: { "Authorization": `Bearer ${access_token}` }
                 })
                 .then(res => res.json())
+                .catch(err => console.error(err))
         }
 
-        getComparison()
+        const getPercentiles = async () => {
+            let month: string | number = monthNumber
+            if (month < 10) {
+                month = `0${monthNumber}`
+            }
+            return await fetch(
+                `api/engagement/v2/peer-group-stats`,
+                // Add this to make it responsable
+                // ?units=consumption&month_of_year=${year}-${month}
+                {
+                    method: "GET",
+                    headers: { "Authorization": `Bearer ${access_token}` }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    let group = {}
+                    if(fuel === 'elec'){
+                        group = data['all-electric']
+                    } else if (fuel === 'gas') {
+                        group = data['all-gas']
+                    }
+                    return group
+                })
+                .catch(err => console.log(err))
+        }
+
+        const getConsumption = async () => {
+            return await fetch(
+                `api/engagement/v2/consumption/${householdID}/monthly/${year}?fuel=${fuel}&units=${unit}`,
+                {
+                    method: "GET",
+                    headers: { "Authorization": `Bearer ${access_token}` }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    let month: string | number = monthNumber
+                    if (month < 10) {
+                        month = `0${monthNumber}`
+                    }
+                    return data.consumption[`${year}-${month}`]
+                })
+                .catch(err => console.error(err))
+        }
+
+        const findPercentile = () => {
+            Promise.all([getConsumption(), getPercentiles()])
+            .then(data => {
+                console.log(data)
+                const consumption: number = data[0]
+                const percentiles = data[1]
+                const arr = Object.values(percentiles as {})
+                const filtered:number[] = arr.filter((item: any) => typeof item === 'number')
+                sortArray(filtered)
+                console.log(filtered)
+                // arr.forEach(item =>  console.log(item < consumption))
+                
+            })
+            .catch(err => console.error(err))
+        }
+
+        findPercentile()
 
     }, [householdID, access_token, fuel, unit])
 
@@ -211,14 +276,35 @@ const Devices = () => {
             return <Chart
                 width={'18em'}
                 height={'17.5em'}
-                style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', backgroundColor: 'transparent' }}    
+                style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', backgroundColor: 'transparent' }}
                 chartType="Bar"
                 loader={<Loading />}
                 data={compareOwn}
                 options={{
                     titlePosition: 'none',
                     hAxis: { textPosition: 'none' },
-                    legend: { position: 'none'} ,
+                    legend: { position: 'none' },
+                    bar: { groupWidth: "25%" }
+                }}
+            />
+        }
+    }
+
+    const CompareHouseholdGRaph = () => {
+        if (compareHouseholds.length === 0) {
+            return <Loading />
+        } else {
+            return <Chart
+                width={'18em'}
+                height={'17.5em'}
+                style={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', backgroundColor: 'transparent' }}
+                chartType="Bar"
+                loader={<Loading />}
+                data={compareHouseholds}
+                options={{
+                    titlePosition: 'none',
+                    hAxis: { textPosition: 'none' },
+                    legend: { position: 'none' },
                     bar: { groupWidth: "25%" }
                 }}
             />
@@ -250,7 +336,7 @@ const Devices = () => {
             <Card type='title' title='Vergelijk jezelf' btntext="Bekijk de vergelijking">
                 <CompareOwnGraph />
             </Card>
-            <Card type='title' title='Vergelijkbare huishoudens'></Card>
+            <Card type='title' title='Vergelijkbare huishoudens' btntext="Bekijk de vergelijking"></Card>
         </Layout>
     )
 }

@@ -21,4 +21,5 @@ services:
     build:
       context: ./next-app
       dockerfile: Dockerfile
-    command: sh -c "yarn && yarn test"
+    command: sh -c "yarn && yarn run dev -p 8080 && yarn test"
+    container_name: test

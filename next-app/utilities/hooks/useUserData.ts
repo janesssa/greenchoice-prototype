@@ -3,16 +3,16 @@ import useAuth from 'utilities/hooks/useAuth';
 import { useHouseholdContext } from 'utilities/contexts/household-context';
 import useFetch from "./useFetch";
 
-const userData = async () => {
+const useUserData = async () => {
     console.info('Getting access token and requesting user profile data')
-    const { householdID } = useHouseholdContext()
+    const { householdID, access_token } = useHouseholdContext()
     const [fetching, setFetching] = useState(true)
 
     const { response, error, request } = useFetch(
         `/api/engagement/v2/profile/${householdID}`,
         {
             method: "GET",
-            headers: { "Authorization": `Bearer ${useHouseholdContext().access_token}` }
+            headers: { "Authorization": `Bearer ${access_token}` }
         }
     );
 
@@ -20,7 +20,6 @@ const userData = async () => {
         await request().then(res => console.log(res)).catch(err => console.log(err));
         setFetching(false)
     }
-    console.log(response, error)
 
     if(!error){
         return response
@@ -30,4 +29,4 @@ const userData = async () => {
     return { error }
 }
 
-export default userData
+export default useUserData
