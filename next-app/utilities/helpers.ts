@@ -1,8 +1,11 @@
-export const calcMean = (arr: number[]) => {
+export const calcMean = (arr: number[], size?: number) => {
     let total: number = 0;
     arr.forEach(num => {
         total += num;
     })
+    if(size){
+        return total / size
+    }
     return total / arr.length
 }
 

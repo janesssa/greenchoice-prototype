@@ -1,7 +1,14 @@
 const { calcMean, sortArray, getKeyByValue, getNextPercentile, convertWhTokWh } = require('../helpers')
 
-test('calculate mean', () => {
-    expect(calcMean([3,2,1])).toStrictEqual(3)
+test.each([
+    [[3,2,1], 2, null],
+    [[3,2,1], 1.5, 4]
+])('calculate mean', (v: number[], e:number, s?: number) => {
+    if(s !== null){
+        expect(calcMean(v, s)).toStrictEqual(e)
+    } else {
+        expect(calcMean(v)).toStrictEqual(e)
+    }
 })
 
 test('convert Wh to kWh', () => {
@@ -13,10 +20,13 @@ test('sorts array of numbers ascending', () => {
 })
 
 test('get key from object by value', () => {
-    expect(getKeyByValue({ "first": "1", "second": "2" }, 1).toStrictEqual("second"))
+    expect(getKeyByValue({ "first": "1", "second": "2" }, "1")).toStrictEqual("first")
 })
 
-test.each([['pc50', 'pc55'], ['pc100', 'pc100']])('create next percentile key', (input, expected) => {
-    expect(getNextPercentile(input).toStrictEqual(expected))
+test.each([
+    ['pc50', 'pc55'], 
+    ['pc100', 'pc100']
+])('create next percentile key', (i: string, e: string) => {
+    expect(getNextPercentile(i)).toStrictEqual(e)
 })
 
