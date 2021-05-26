@@ -7,8 +7,7 @@ import { primary, primaryDark, secondaryA, secondaryB, secondaryD, secondaryI, s
 import Loading from 'utilities/components/atoms/Loading'
 import Chart from "react-google-charts";
 import Button from 'utilities/components/atoms/Button'
-import { sortArray } from 'utilities/helpers'
-import useUserData from 'utilities/hooks/useUserData'
+import { sortArray, getKeyByValue, getNextPercentile, calcMean, convertWhTokWh } from 'utilities/helpers'
 
 const Devices = () => {
     const { householdID, access_token, response } = useHouseholdContext()
@@ -24,11 +23,7 @@ const Devices = () => {
     const year = today.getFullYear()
     const pastYear = year - 1
 
-    const res = useUserData()
-    console.log(res)
-
     useEffect(() => {
-        console.log(today, monthNumber, year, pastYear)
         const getBreakdown = async () => {
             return await fetch(
                 `/api/engagement/v2/breakdown/${householdID}/month?fuel=${fuel}&units=${unit}`,
@@ -51,7 +46,7 @@ const Devices = () => {
                             values.push(["Category", "Usage"])
                             Object.keys(data.values).forEach(item => {
                                 if (data.values[item][1] !== 0) {
-                                    values.push([item, Math.round(data.values[item][1] / 1000 * 100) / 100])
+                                    values.push([item, convertWhTokWh(data.values[item][1])])
                                 }
                             });
                             setBreakdown(values)
@@ -66,13 +61,6 @@ const Devices = () => {
     }, [householdID, access_token, fuel, unit])
 
     useEffect(() => {
-        const calcMean = (arr) => {
-            let total = 0;
-            arr.forEach(num => {
-                total += num;
-            })
-            return total / arr.length
-        }
 
         const getConsumption = async () => {
             return await fetch(
@@ -87,7 +75,7 @@ const Devices = () => {
                     if (month < 10) {
                         month = `0${monthNumber}`
                     }
-                    return ["Deze maand", Math.round(data.consumption[`${year}-${month}`] / 1000 * 100) / 100, `color: ${secondaryI}`]
+                    return ["Deze maand", convertWhTokWh(data.consumption[`${year}-${month}`]), `color: ${secondaryI}`]
                 })
                 .catch(err => console.error(err))
         }
@@ -102,7 +90,7 @@ const Devices = () => {
                 .then(res => res.json())
                 .catch(err => console.error(err))
 
-            const res = months.map(async year => {
+            const res: number[] = months.map(async (year: number) => {
                 return await fetch(
                     `api/engagement/v2/consumption/${householdID}/monthly/${year}?fuel=${fuel}&units=${unit}`,
                     {
@@ -114,13 +102,13 @@ const Devices = () => {
                         let days = Object.values(data.actualNumberOfDays).reduce((a: number, b: number) => a + b)
                         let consumption = Object.values(data.consumption).reduce((a: number, b: number) => a + b)
                         let dayAvg: number = (consumption as number) / (days as number)
-                        let monthAvg = Math.round((dayAvg * 30.5) / 1000 * 100) / 100
+                        let monthAvg = convertWhTokWh((dayAvg * 30.5))
                         return monthAvg
                     })
                     .catch(err => console.error(err))
             })
 
-            const mean = await Promise.all(res).then(data => calcMean(data)).catch(err => console.error(err))
+            const mean: number | void = await Promise.all(res).then((data: number[]) => calcMean(data)).catch(err => console.error(err))
             return ["Gemiddelde", mean, `color: ${secondaryA}`]
         }
 
@@ -140,7 +128,7 @@ const Devices = () => {
                     let days = data.actualNumberOfDays[`${pastYear}-${month}`]
                     let consumption = data.consumption[`${pastYear}-${month}`]
                     let avg = consumption / days
-                    return [`Vorig jaar ${new Intl.DateTimeFormat('nl-NL', { month: "long" }).format(monthNumber)}`, Math.round(consumption / 1000 * 100) / 100, `color: ${primary}`]
+                    return [`Vorig jaar ${new Intl.DateTimeFormat('nl-NL', { month: "long" }).format(monthNumber)}`, convertWhTokWh(consumption), `color: ${primary}`]
                 })
                 .catch(err => console.error(err))
         }
@@ -189,7 +177,7 @@ const Devices = () => {
                 .then(res => res.json())
                 .then(data => {
                     let group = {}
-                    if(fuel === 'elec'){
+                    if (fuel === 'elec') {
                         group = data['all-electric']
                     } else if (fuel === 'gas') {
                         group = data['all-gas']
@@ -212,28 +200,37 @@ const Devices = () => {
                     if (month < 10) {
                         month = `0${monthNumber}`
                     }
-                    return data.consumption[`${year}-${month}`]
+                    return ["Jouw verbruik", convertWhTokWh(data.consumption[`${year}-${month}`])]
                 })
                 .catch(err => console.error(err))
         }
 
-        const findPercentile = () => {
-            Promise.all([getConsumption(), getPercentiles()])
-            .then(data => {
-                console.log(data)
-                const consumption: number = data[0]
-                const percentiles = data[1]
-                const arr = Object.values(percentiles as {})
-                const filtered:number[] = arr.filter((item: any) => typeof item === 'number')
-                sortArray(filtered)
-                console.log(filtered)
-                // arr.forEach(item =>  console.log(item < consumption))
-                
-            })
-            .catch(err => console.error(err))
+        const getHouseholdAverage = async () => {
+            return await Promise.all([getConsumption(), getPercentiles()])
+                .then((data: ((string | number)[] | {})) => {
+                    const consumption: number = data[0][1]
+                    const percentiles: {} = data[1]
+                    const arr = Object.values(percentiles as {})
+                    const filtered: number[] = arr.filter((item): item is number => typeof item === 'number')
+                    const sorted: number[] = sortArray(filtered)
+                    const bottom: number = sorted.find(item => item > consumption)
+                    const firstPC: string = getKeyByValue(percentiles, bottom)
+                    const secondPC: string = getNextPercentile(firstPC)
+                    const mean: number = calcMean([percentiles[firstPC], percentiles[secondPC]])
+                    return ["Soortgelijke huishoudens", Math.round(mean)]
+                })
+                .catch(err => console.error(err))
         }
 
-        findPercentile()
+        const setState = async () => {
+            const c = await getConsumption()
+            const a = await getHouseholdAverage()
+
+            setCompareHouseholds([["Title", "Unit"], c, a])
+        }
+
+        setState()
+
 
     }, [householdID, access_token, fuel, unit])
 
@@ -336,7 +333,9 @@ const Devices = () => {
             <Card type='title' title='Vergelijk jezelf' btntext="Bekijk de vergelijking">
                 <CompareOwnGraph />
             </Card>
-            <Card type='title' title='Vergelijkbare huishoudens' btntext="Bekijk de vergelijking"></Card>
+            <Card type='title' title='Vergelijkbare huishoudens' btntext="Bekijk de vergelijking">
+                <CompareHouseholdGRaph />
+            </Card>
         </Layout>
     )
 }
