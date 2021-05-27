@@ -30,3 +30,5 @@ test.each([
     expect(getNextPercentile(i)).toStrictEqual(e)
 })
 
+// To get around ES6 TS problems
+export {}
