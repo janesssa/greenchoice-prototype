@@ -117,7 +117,7 @@ const CompareOwnGraph = () => {
     useEffect(() => {
         const getBreakdown = async () => {
             return await fetch(
-                `/api/engagement/v2/breakdown/${householdID}/month?fuel=${fuel}&units=${unit}`,
+                `/api/engagement/v2/breakdown/${householdID}/1day?fuel=${fuel}&units=${unit}`,
                 {
                     method: "GET",
                     headers: { "Authorization": `Bearer ${access_token}` }
@@ -125,7 +125,7 @@ const CompareOwnGraph = () => {
                 .then(res => res.json())
                 .then(async date => {
                     return await fetch(
-                        `/api/engagement/v2/breakdown/${householdID}/month/${date[0]}?fuel=${fuel}&units=${unit}`,
+                        `/api/engagement/v2/breakdown/${householdID}/1day/${date[0]}?fuel=${fuel}&units=${unit}`,
                         {
                             method: "GET",
                             headers: { "Authorization": `Bearer ${access_token}` }
@@ -143,7 +143,7 @@ const CompareOwnGraph = () => {
 
         const getMean = async () => {
             const months = await fetch(
-                `api/engagement/v2/breakdown/${householdID}/month?fuel=${fuel}&units=${unit}&limit=7`,
+                `api/engagement/v2/breakdown/${householdID}/1day?fuel=${fuel}&units=${unit}&limit=7`,
                 {
                     method: "GET",
                     headers: { "Authorization": `Bearer ${access_token}` }
@@ -153,7 +153,7 @@ const CompareOwnGraph = () => {
 
             const res: number[] = months.map(async (year: number) => {
                 return await fetch(
-                    `api/engagement/v2/breakdown/${householdID}/month/${year}?fuel=${fuel}&units=${unit}`,
+                    `api/engagement/v2/breakdown/${householdID}/1day/${year}?fuel=${fuel}&units=${unit}`,
                     {
                         method: "GET",
                         headers: { "Authorization": `Bearer ${access_token}` }
