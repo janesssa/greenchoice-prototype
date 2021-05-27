@@ -40,3 +40,8 @@ WORKDIR /usr/app
 COPY package*.json ./
 RUN yarn
 EXPOSE 8080
+
+ENV GIT_WORK_TREE=/usr/app/frontend GIT_DIR=/usr/app/.git
+
+RUN apk update && \
+    apk add git

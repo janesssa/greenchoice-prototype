@@ -15,6 +15,9 @@ services:
     working_dir: /usr/app
     volumes:
        - ./next-app:/usr/app
+       - "/.git:/usr/app/.git"
+    tty: true
+    stdin_open: false
   test:
     build:
       context: ./next-app
@@ -24,3 +27,8 @@ services:
     working_dir: /usr/app
     volumes:
        - ./next-app:/usr/app
+       - "/.git:/usr/app/.git"
+    tty: true
+    stdin_open: false
+
+      
