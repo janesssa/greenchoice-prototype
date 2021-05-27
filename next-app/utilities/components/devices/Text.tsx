@@ -70,7 +70,10 @@ const Text = () => {
 
     useEffect(() => {
         // TODO: API call the consumption :)
-        const total = text.energy.substring(0, text.energy.length - 4)
+        let total 
+        if(text.energy){
+            total = text.energy.substring(0, text.energy.length - 4)
+        }
 
         const getConsumption = async () => {
             const map = unit.map(async unit => {
