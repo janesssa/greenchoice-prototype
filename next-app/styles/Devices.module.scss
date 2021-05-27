@@ -20,3 +20,21 @@ $text: 'Roboto', sans-serif;
     justify-content: space-between;
     align-items: center;
 }
+
+.textContainer {
+    display: flex;
+    position: absolute;
+    top: 46%;
+    max-width: 10em;
+    max-height: 10em;
+    flex-direction: column;
+    justify-content: space-between;
+
+    & h3, h2 {
+        margin: 0;
+    }
+
+    & h3 {
+        color: darken($charlie, 20%);
+    }
+}
