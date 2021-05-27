@@ -211,12 +211,15 @@ const Devices = () => {
                     const consumption: number = data[0][1]
                     const percentiles: {} = data[1]
                     const arr = Object.values(percentiles as {})
-                    const filtered: number[] = arr.filter((item): item is number => typeof item === 'number')
-                    const sorted: number[] = sortArray(filtered)
-                    const bottom: number = sorted.find(item => item > consumption)
-                    const firstPC: string = getKeyByValue(percentiles, bottom)
-                    const secondPC: string = getNextPercentile(firstPC)
-                    const mean: number = calcMean([percentiles[firstPC], percentiles[secondPC]])
+                    const filtered: number[] = arr.filter((item): item is number => typeof item === 'number' && percentiles[item] !== 'size')
+                    const mean = calcMean(filtered, percentiles["size"])
+                    
+                    // Old code --- Gets percentiles the client falls between and calculates the mean of those percentiles
+                    // const sorted: number[] = sortArray(filtered)
+                    // const bottom: number = sorted.find(item => item > consumption)
+                    // const firstPC: string = getKeyByValue(percentiles, bottom)
+                    // const secondPC: string = getNextPercentile(firstPC)
+                    // const mean: number = calcMean([percentiles[firstPC], percentiles[secondPC]])
                     return ["Soortgelijke huishoudens", Math.round(mean)]
                 })
                 .catch(err => console.error(err))
