@@ -6,8 +6,8 @@ type HouseholdType = {
     access_token: string,
     setAccessToken: Dispatch<SetStateAction<string>>,
     response: {},
-    setResponse: Dispatch<SetStateAction<string>>,
-    selection: {}
+    setResponse: Dispatch<SetStateAction<{}>>,
+    selection: string
     setSelection: Dispatch<SetStateAction<string>>,
 }
 
@@ -18,7 +18,7 @@ export const HouseholdContext = createContext<HouseholdType>({
     setAccessToken: null,
     response: {},
     setResponse: null,
-    selection: {},
+    selection: '',
     setSelection: null
 })
 

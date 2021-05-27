@@ -72,7 +72,11 @@ const MainGraph = () => {
                     callback: ({ chartWrapper }) => {
                         const chart = chartWrapper.getChart()
                         const selection = chart.getSelection()
-                        setSelection(breakdown[selection[0].row + 1])
+                        if(selection[0] === undefined){
+                            setSelection('')
+                        } else {
+                            setSelection(breakdown[selection[0].row + 1])
+                        }
                     }
                 }]}
             />
