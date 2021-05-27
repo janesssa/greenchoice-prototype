@@ -21,7 +21,7 @@ export const getKeyByValue = (object: {}, value: any) => {
     return Object.keys(object).find(key => object[key] === value);
 }
 
-export const getNextPercentile = (value: string) => {
+export const getNextPercentile: (v: string) => string = (value: string) => {
     if (value === 'pc100') {
         return value
     }
@@ -30,4 +30,14 @@ export const getNextPercentile = (value: string) => {
     const newNum: number = num + 5
     const newPC: string = `pc${newNum}`
     return newPC
+}
+
+export const calcPercentage: (p: number, w: number) => string = (part: number, whole: number) => {
+    const percentage: number = part / whole * 100
+    const rounded: number = Math.round(percentage * 100) / 100
+    if(rounded.toString().includes('.')){
+        return `${rounded}%`
+    } else {
+        return `${Math.round(percentage)}%`
+    }
 }

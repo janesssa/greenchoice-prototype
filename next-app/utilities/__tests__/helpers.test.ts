@@ -1,4 +1,4 @@
-const { calcMean, sortArray, getKeyByValue, getNextPercentile, convertWhTokWh } = require('../helpers')
+const { calcMean, sortArray, getKeyByValue, getNextPercentile, convertWhTokWh, calcPercentage } = require('../helpers')
 
 test.each([
     [[3,2,1], 2, null],
@@ -28,6 +28,13 @@ test.each([
     ['pc100', 'pc100']
 ])('create next percentile key', (i: string, e: string) => {
     expect(getNextPercentile(i)).toStrictEqual(e)
+})
+
+test.each([
+    [10, 100, "10%"], 
+    [16, 90, "17.78%"]
+])('create next percentile key', (i: number, j:number, e: string) => {
+    expect(calcPercentage(i, j)).toStrictEqual(e)
 })
 
 // To get around ES6 TS problems
