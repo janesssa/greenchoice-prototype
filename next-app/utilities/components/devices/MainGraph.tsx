@@ -6,9 +6,8 @@ import Chart from "react-google-charts";
 import { convertWhTokWh } from 'utilities/helpers'
 
 const MainGraph = () => {
-    const { householdID, access_token } = useHouseholdContext()
+    const { householdID, access_token, setSelection } = useHouseholdContext()
     const [breakdown, setBreakdown] = useState([])
-    const [selection, setSelection] = useState("")
     const [fuel, setFuel] = useState("elec")
     const [unit, setUnit] = useState("energy")
 
