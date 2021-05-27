@@ -43,7 +43,7 @@ const Card = ({type, title, children, btntext}: CardType) => {
     return (
         <div className={styles.container}>
             <h4 className={styles.smallTitle}>{title}</h4>
-            <span className={styles.divider}></span>
+            <span className="divider"></span>
             {children}
         </div>
     )

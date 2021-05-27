@@ -110,7 +110,6 @@ const CompareOwnGraph = () => {
         }
 
         if (selection === undefined || selection.length === 0) {
-            console.log('alll')
             getValues().catch(console.error)
         }
     }, [householdID, access_token, fuel, unit, selection])
@@ -170,7 +169,7 @@ const CompareOwnGraph = () => {
             })
 
             const mean: number | void = await Promise.all(res).then((data: number[]) => calcMean(data)).catch(err => console.error(err))
-            console.log(mean)
+            
             return ["7 daagse gemiddelde", mean]
         }
 
@@ -185,7 +184,7 @@ const CompareOwnGraph = () => {
             }
             const startDate = `${pastYear}-${month}-01`
             const endDate = `${pastYear}-${month}-${lastDateOfMonth}`
-            console.log(startDate, endDate)
+            
             return await fetch(
                 `api/engagement/v2/breakdown/${householdID}/${startDate}/${endDate}?fuel=${fuel}&units=${unit}`,
                 {
@@ -194,7 +193,6 @@ const CompareOwnGraph = () => {
                 })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
                     let days = data.actualNumberOfDays
                     let consumption = data.values[selection[0]][1]
                     let avg = consumption / days
@@ -211,14 +209,13 @@ const CompareOwnGraph = () => {
                     data.forEach(item => {
                         values.push(item)
                     })
-                    console.log(values)
+                    
                     setCompareOwn(values)
                 })
                 .catch(err => console.error(err))
         }
 
         if (selection !== undefined && selection.length !== 0) {
-            console.log('selection')
             getValues()
         }
     }, [householdID, access_token, fuel, unit, selection])
