@@ -2,6 +2,7 @@ const SerialPort = require('serialport')
 const Readline = require('@serialport/parser-readline')
 const mariadb = require('mariadb')
 const express = require("express")
+const { exec } = require('child_process');
 
 const app = express();
 
@@ -9,14 +10,14 @@ app.use(express.json());
 app.use(express.urlencoded({
 	extended: true
 }));
-app.use(res => {
-	res.header({
-		"Access-Control-Allow-Headers": "Content-Type",
-		"Access-Control-Allow-Origin": "*",
-		"Access-Control-Allow-Methods": "OPTIONS, GET",
-		'Content-Type': 'application/json'
-	})
-})
+//app.use(res => {
+//	res.header({
+//		"Access-Control-Allow-Headers": "Content-Type",
+//		"Access-Control-Allow-Origin": "*",
+//		"Access-Control-Allow-Methods": "OPTIONS, GET",
+//		"Content-Type": "application/json"
+//	})
+//})
 
 const raspberryPort = "/dev/ttyUSB0";
 
@@ -115,7 +116,19 @@ app.get("/P1", async (req, res) => {
 	}).catch(console.error)
 })
 
-app.post("/vpn")
+app.get("/create-profile", async (req, res) => {
+	console.log('Hoi ik ben de vpn met creds: ' + res.json())
+	exec('pritunl-clienr add 168.119.59.191://demo.pritunl.com/ku/rBCDSgw5', (err, stdout, stderr) => {
+		if (err) {
+			// node couldn't execute the command
+	 		console.error(err)
+			return;
+		}
+		// the *entire* stdout and stderr (buffered)
+		console.log(`stdout: ${stdout}`);
+	});
+	res.json({message: 'Profile created'})
+})
 
 // set port, listen for requests
 app.listen(1337, () => {
