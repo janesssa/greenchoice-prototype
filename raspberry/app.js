@@ -10,14 +10,15 @@ app.use(express.json());
 app.use(express.urlencoded({
 	extended: true
 }));
-//app.use(res => {
-//	res.header({
-//		"Access-Control-Allow-Headers": "Content-Type",
-//		"Access-Control-Allow-Origin": "*",
-//		"Access-Control-Allow-Methods": "OPTIONS, GET",
-//		"Content-Type": "application/json"
-//	})
-//})
+app.use(res => {
+	res.header({
+		'Access-Control-Allow-Headers': 'Content-Type',
+		'Access-Control-Allow-Origin': '*',
+		'Access-Control-Allow-Methods': 'OPTIONS, GET',
+		'Content-Type': 'application/json',
+		"Access-Control-Expose-Headers": "ETag"
+	})
+})
 
 const raspberryPort = "/dev/ttyUSB0";
 
@@ -105,11 +106,11 @@ app.get("/P1", async (req, res) => {
 	pool.getConnection().then(async conn => {
 		console.log("conn")
 		conn.query(query).then(rows => {
-			res.send(JSON.stringify({
+			res.json({
 				"status": 200,
 				"error": null,
 				"response": rows
-			}))
+			})
 		}).catch(console.error)
 
 		conn.end(console.error)
