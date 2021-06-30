@@ -13,7 +13,7 @@ const Live = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             // kijken of dit niet veranderd kan worden naar 80.112.41.171
-            fetch('http://80.112.41.171:1337/P1')
+            fetch('http://0.0.0.1:8081/P1')
                 .then(res => res.json())
                 .then(data => {
                     const map = data.response.map(item => [item.time, item.energy])
