@@ -14,7 +14,7 @@ app.use(res => {
 	res.header({
 		'Access-Control-Allow-Headers': 'Content-Type',
 		'Access-Control-Allow-Origin': '*',
-		'Access-Control-Allow-Methods': 'OPTIONS, GET',
+		'Access-Control-Allow-Methods': 'OPTIONS, GET, POST',
 		'Content-Type': 'application/json',
 		"Access-Control-Expose-Headers": "ETag"
 	})
@@ -101,7 +101,7 @@ app.get("/", (req, res) => {
 	res.json({ message: "Welcome to the application." });
 });
 
-app.get("/P1", async (req, res) => {
+app.get("/P1", (req, res) => {
 	let query = "SELECT * FROM live WHERE time > DATE_SUB( NOW(), INTERVAL 1 MINUTE )"
 	pool.getConnection().then(async conn => {
 		console.log("conn")
@@ -117,10 +117,10 @@ app.get("/P1", async (req, res) => {
 	}).catch(console.error)
 })
 
-app.post("/create-profile", async (req, res) => {
-	console.log('Downloadlink: ' + res.json())
+app.post("/create-profile", (req, res) => {
+	//console.log('Downloadlink: ' + res.json())
 	const { exec } = require('child_process');
-	
+	console.log('GO')
 	exec(`pritunl-client add ${res.json()}`, (err, stdout, stderr) => {
 	if (err) {
 		// node couldn't execute the command
