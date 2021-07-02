@@ -113,9 +113,9 @@ const CompareHouseholdGraph = () => {
                             group = data['all-for-always-on']
                             break
                         case "cooking":
-                            if(fuel === 'elec'){
+                            if (fuel === 'elec') {
                                 group = data['all-for-electric-cooking']
-                            } else if (fuel === 'gas'){
+                            } else if (fuel === 'gas') {
                                 group = data['all-for-gas-cooking']
                             }
                             break
@@ -129,9 +129,9 @@ const CompareHouseholdGraph = () => {
                             group = data['all-for-home-entertainment']
                             break
                         case "heating":
-                            if(fuel === 'elec'){
+                            if (fuel === 'elec') {
                                 group = data['all-for-electric-heating']
-                            } else if (fuel === 'gas'){
+                            } else if (fuel === 'gas') {
                                 group = data['all-for-gas-heating']
                             }
                             break
@@ -148,9 +148,9 @@ const CompareHouseholdGraph = () => {
                             group = data['all-for-refrigeration']
                             break
                         case "water_heating":
-                            if(fuel === 'elec'){
+                            if (fuel === 'elec') {
                                 group = data['all-for-electric-water-heating']
-                            } else if (fuel === 'gas'){
+                            } else if (fuel === 'gas') {
                                 group = data['all-for-gas-water-heating']
                             }
                             break
@@ -161,7 +161,7 @@ const CompareHouseholdGraph = () => {
                                 group = data['all-gas']
                             }
                     }
-                    console.log(selection, group)
+
                     return group
                 })
                 .catch(err => console.log(err))
@@ -176,7 +176,6 @@ const CompareHouseholdGraph = () => {
                 })
                 .then(res => res.json())
                 .then(async date => {
-                    console.log(date)
                     return await fetch(
                         `/api/engagement/v2/breakdown/${householdID}/1day/${date[0]}?fuel=${fuel}&units=${unit}`,
                         {
@@ -194,26 +193,13 @@ const CompareHouseholdGraph = () => {
 
         }
 
-        const getShit = async () => {
-            return await fetch(
-                `/api/engagement/v2/breakdown`,
-                {
-                    method: "GET",
-                    headers: { "Authorization": `Bearer ${access_token}` }
-                }).then(res => console.log(res.json()))
-        }
-
-
         const getHouseholdAverage = async () => {
             return await Promise.all([getBreakdown(), getPercentiles()])
                 .then((data: ((string | number)[] | {})) => {
-                    console.log(data)
                     const percentiles: {} = data[1]
                     const arr = Object.values(percentiles as {})
                     const filtered: number[] = arr.filter((item): item is number => typeof item === 'number' && percentiles[item] !== 'size')
                     const mean = calcMean(filtered, percentiles["size"])
-
-                    console.log(mean)
 
                     // Old code --- Gets percentiles the client falls between and calculates the mean of those percentiles
                     // const sorted: number[] = sortArray(filtered)
@@ -232,13 +218,11 @@ const CompareHouseholdGraph = () => {
 
             setCompareHouseholds([["Title", "Unit"], c, a])
         }
-        
+
         if (selection !== undefined && selection.length !== 0) {
             setState()
         }
-
-
-    getShit()    }, [householdID, access_token, fuel, unit, selection])
+    }, [householdID, access_token, fuel, unit, selection])
 
     if (compareHouseholds.length === 0) {
         return <Loading />

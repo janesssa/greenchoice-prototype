@@ -1,4 +1,4 @@
-import express from 'express';
+const express = require("express");
 
 const app = express();
 
@@ -17,6 +17,14 @@ app.use(res => {
 
 // simple route
 app.get("/", (req, res) => {
+	res.json({ message: "Welcome to the VPN server." });
+});
+
+app.get("/P1", (req, res) => {
+
+// ifconfig tun1 | grep 192 
+// proxy naar 192.168.246.2 -> ip adres van raspi die met vpn verbonden is.
+
 	res.json({ message: "Welcome to the VPN server." });
 });
 
