@@ -15,12 +15,3 @@ services:
     working_dir: /usr/app
     volumes:
        - ./next-app:/usr/app
-  test:
-    build:
-      context: ./next-app
-      dockerfile: Dockerfile
-    command: yarn test
-    container_name: test
-    working_dir: /usr/app
-    volumes:
-       - ./next-app:/usr/app

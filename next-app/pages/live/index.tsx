@@ -27,10 +27,13 @@ const Live = () => {
     // }, []);
 
     const activateData = () => {
+        console.log('Activated!!!')
         fetch('/api/configure-raspi')
-            .then(res => res.json())
+            .then(res => {
+                console.log(res)
+            })
             .then(data => {
-                setActivated(true)
+                // setActivated(true)
                 console.log(data)
             })
             .catch(console.error)

@@ -14,6 +14,8 @@
     "http-proxy-middleware": "^2.0.0",
     "next": "10.2.3",
     "next-http-proxy-middleware": "^1.0.10",
+    "node-nmap": "^4.0.0",
+    "pritunl": "0.0.4",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-google-charts": "^3.0.15",

@@ -117,19 +117,27 @@ app.get("/P1", async (req, res) => {
 	}).catch(console.error)
 })
 
-app.get("/create-profile", async (req, res) => {
-	console.log('Hoi ik ben de vpn met creds: ' + res.json())
-	exec('pritunl-clienr add 168.119.59.191://demo.pritunl.com/ku/rBCDSgw5', (err, stdout, stderr) => {
-		if (err) {
-			// node couldn't execute the command
-	 		console.error(err)
-			return;
-		}
+app.post("/create-profile", async (req, res) => {
+	console.log('Downloadlink: ' + res.json())
+	const { exec } = require('child_process');
+	
+	exec(`pritunl-client add ${res.json()}`, (err, stdout, stderr) => {
+	if (err) {
+		// node couldn't execute the command
+		console.error(err)
+		return;
+	}
+
 		// the *entire* stdout and stderr (buffered)
 		console.log(`stdout: ${stdout}`);
+		res.json({
+			"status": 200,
+			"error": null,
+			"response": 'Profile created'
+		})
 	});
-	res.json({message: 'Profile created'})
 })
+
 
 // set port, listen for requests
 app.listen(1337, () => {
