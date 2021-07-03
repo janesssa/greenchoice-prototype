@@ -1,29 +1,18 @@
-// Raspberry vinden over netwerk
-// Verbinden met de VPS
-// Stuurt ovpn/downloadlink terug (?)
-// ovpn/link doorsturen naar raspi
-// ifconfig tun1 | grep 192
-// ip adres opslaan in context
-
 import { exec } from 'child_process';
 
 const findRaspi = () => {
-    // Deze ip is nodig voor createVPNProfile 
-    // Om de downloadlink/ovpn doortesturen
-    // TODO: endpoint maken die dit ontvangt
-
     return new Promise((resolve, reject) => {
-        exec('ping -c 1 raspberrypi', (error, stdout, stderr) => {
+        exec('ping -c 1 greenchoicepi', (error, stdout, stderr) => {
             if (error) {
                 console.error(error);
             }
             if (stdout) {
-                const index = stdout.indexOf('192')
-                const ip = stdout.slice(index, index + 14)
+                const r = /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/
+                const ip = stdout.match(r)
                 resolve(ip)
             }
 
-            resolve(stderr);
+            resolve('0.0.0.0');
         });
     });
 }
@@ -31,83 +20,43 @@ const findRaspi = () => {
 const createVPNProfile = () => {
     // process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = '0';
     // const creds = {"username":"pritunl","password":"7MLx97fGMPddLam"}
-    // const session = fetch("https://168.119.59.191:443/auth/session", {
+    // fetch("https://168.119.59.191:443/auth/session", {
     //     method: "POST",
     //     body: JSON.stringify(creds),
     //     headers: {
     //         'content-security-policy': 'upgrade-insecure-requests'
     //     }
     // }).then(res => {
-    //     console.log(res)
-    //     res.json()
-    // }).then(console.log).catch(console.error)
+    //     console.log('je moer');
+    //     console.log('RES '+ JSON.stringify(res))
+    // }).catch(console.error)
 
-    return 'pritunl://168.119.59.191/ku/xjX7QsHr'
+    return 'https://168.119.59.191/key/QOTrtHEw5SoU1pmL8sIFFPrkLTvNu7hp.tar'
 }
-
-const findExternalIP = () => {
-    return new Promise((resolve, reject) => {
-        exec('ifconfig tun1 | grep 192', (error, stdout, stderr) => {
-            if (error) {
-                console.error(error);
-            }
-            if (stdout) {
-                const length = stdout.length
-                const index = stdout.indexOf('192')
-                const temp = length - index
-                const ip = stdout.slice(temp)
-        
-                console.log('External IP adress from RasPi:' + ip)
-                resolve(ip)
-            }
-
-            resolve(stderr);
-        });
-    });
-
-    // exec('ifconfig tun1 | grep 192', (error, stdout, stderr) => {
-    //     if (error) {
-    //         console.error(`exec error: ${error}`);
-    //         return;
-    //     }
-    //     console.log(`stdout: ${stdout}`);
-    //     console.error(`stderr: ${stderr}`);
-
-    //     const length = stdout.length()
-    //     const index = stdout.indexOf('192')
-    //     const temp = length - index
-    //     const ip = stdout.slice(temp)
-
-    //     console.log('External IP adress from RasPi:' + ip)
-    //     return ip
-    // });
-}
-
 
 export default async (req, res) => {
     console.log('The config started!')
+
     const internalIP = await findRaspi()
     console.log(`Internal IP: ${internalIP}`)
+    
     const link = createVPNProfile()
     console.log(`Download link: ${link}`)
-    const vpnConn = async () => {
-        return await fetch(`http://${internalIP}:1337/create-profile`, {
-                        method: 'POST',
-                        body: JSON.stringify({'url': link})
-                    })
-                    .then(console.log)
-                    .catch(console.error)
-    }
-    const status = await vpnConn()
-    console.log(status)
-    // if(status === 200){
-    //     return findExternalIP()
-    // } 
+    
+    await fetch(`http://${internalIP}:9876/create-profile`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ 'url': link })
+        }).catch(console.error)
+    
+    const externalIP = await fetch(`http://${internalIP}:9876/current-ip`)
+        .then(res => res.json())
+        .catch(console.error)
+    console.log('External IP: ' + externalIP.response[0])
 
-    // console.error('help: ' + status)
     res.send(JSON.stringify({
         "status": 200,
         "error": null,
-        "response": "Het is OK"
+        "response": externalIP.response[0]
     }))
 }

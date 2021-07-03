@@ -7,37 +7,38 @@ import { Chart } from 'react-google-charts'
 import Loading from 'utilities/components/atoms/Loading'
 
 const Live = () => {
-    const [response, setResponse] = useState()
+    // const [response, setResponse] = useState()
     const [data, setData] = useState([])
     const [activated, setActivated] = useState(false)
+    const [loading, setLoading] = useState(false)
 
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         // kijken of dit niet veranderd kan worden naar 80.112.41.171
-    //         fetch('http://168.119.59.191:8081/P1')
-    //             .then(res => res.json())
-    //             .then(data => {
-    //                 const map = data.response.map(item => [item.time, item.energy])
-    //                 map.unshift(['Time', 'Energy (kWh)'])
-    //                 setData(map)
-    //             })
-    //             .catch(console.error)
-    //     }, 10000);
-    //     return () => clearInterval(interval);
-    // }, []);
+    const createGraph = (ip) => {
+        const interval = setInterval(() => {
+            // kijken of dit niet veranderd kan worden naar 80.112.41.171
+            fetch(`http://${ip}:9876/P1`)
+                .then(res => res.json())
+                .then(data => {
+                    const map = data.response.map(item => [item.time, item.energy])
+                    map.unshift(['Time', 'Energy (kWh)'])
+                    setData(map)
+                    setLoading(false)
+                    setActivated(true)
+                })
+                .catch(console.error)
+        }, 10000);
+        return () => clearInterval(interval);
+    }
 
     const activateData = () => {
         console.log('Activated!!!')
         fetch('/api/configure-raspi')
-            .then(res => {
-                console.log(res)
-            })
+            .then(res => res.json())
             .then(data => {
-                // setActivated(true)
                 console.log(data)
+                setLoading(true)
+                createGraph(data.response)
             })
             .catch(console.error)
-        
     }
 
     if(activated){
@@ -79,7 +80,13 @@ const Live = () => {
         <Layout>
             <Card title='Live data'>
                 <p>Activeer nu live data.</p>
-                <Button text='Activeer!' handleClick={() => activateData()} />
+                {loading ? (
+                    <Button text=''>
+                        <Loading />
+                    </Button>
+                ) : (
+                    <Button text='Activeer!' handleClick={() => activateData()} />
+                )}
             </Card>
         </Layout>
     )
