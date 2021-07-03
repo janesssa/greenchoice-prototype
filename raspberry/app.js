@@ -173,11 +173,14 @@ app.get("/current-ip", (req, res) => {
 		}
 
 		console.log(stdout);
+		
+		const r = /\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/
+		const ip = stdout.match(r)
 
 		res.json({
 			"status": 200,
 			"error": null,
-			"response": `Message: ${stdout}`
+			"response": ip
 		})
 	
 	})
