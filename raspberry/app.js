@@ -164,6 +164,25 @@ app.post("/create-profile", (req, res) => {
 	});
 })
 
+app.get("/current-ip", (req, res) => {
+	exec('ifconfig | grep 192', (err, stdout, stderr) => {
+		if (err) {
+			// node couldn't execute the command
+			console.error(err)
+			return;
+		}
+
+		console.log(stdout);
+
+		res.json({
+			"status": 200,
+			"error": null,
+			"response": `Message: ${stdout}`
+		})
+	
+	})
+}
+
 
 // set port, listen for requests
 app.listen(9876, () => {
