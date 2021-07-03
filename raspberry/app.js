@@ -120,7 +120,7 @@ app.get("/P1", (req, res) => {
 app.post("/create-profile", (req, res) => {
 	//console.log('Downloadlink: ' + res.json())
 	const { exec } = require('child_process');
-	console.log(req.body.url)
+	console.log(req)
 	const key = req.body.url.indexOf('key')
 	const fileName = req.body.url.slice(key + 4)
 	console.log(fileName)
@@ -181,7 +181,7 @@ app.get("/current-ip", (req, res) => {
 		})
 	
 	})
-}
+});
 
 
 // set port, listen for requests
