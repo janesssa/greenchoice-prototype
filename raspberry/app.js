@@ -98,7 +98,6 @@ parser.on('data', sortData)
 
 // simple route
 app.get("/", (req, res) => {
-	console.log('doe het kreng');
 	res.json({ message: "Welcome to the application." });
 });
 
@@ -121,13 +120,13 @@ app.get("/P1", (req, res) => {
 app.post("/create-profile", (req, res) => {
 	//console.log('Downloadlink: ' + res.json())
 	const { exec } = require('child_process');
-	console.log('GO')
-	exec(`pritunl-client add ${res.json()}`, (err, stdout, stderr) => {
-	if (err) {
-		// node couldn't execute the command
-		console.error(err)
-		return;
-	}
+	console.log(res.json())
+	exec(`wget ${res.json()} --no-check--certificate`, (err, stdout, stderr) => {
+		if (err) {
+			// node couldn't execute the command
+			console.error(err)
+			return;
+		}
 
 		// the *entire* stdout and stderr (buffered)
 		console.log(`stdout: ${stdout}`);
