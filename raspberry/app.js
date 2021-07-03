@@ -12,12 +12,12 @@ app.use(express.urlencoded({
 }));
 
 app.use((req, res, next) => {
-    res.append('Access-Control-Allow-Origin', ['*']);
-    res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.append('Access-Control-Allow-Headers', 'Content-Type');
-    res.append('Content-Type', 'application/json')	
-    res.append('Access-Control-Expose-Headers', 'ETag');
-    next();
+	res.append('Access-Control-Allow-Origin', ['*']);
+	res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+	res.append('Access-Control-Allow-Headers', 'Content-Type');
+	res.append('Content-Type', 'application/json')
+	res.append('Access-Control-Expose-Headers', 'ETag');
+	next();
 });
 
 const raspberryPort = "/dev/ttyUSB0";
@@ -124,7 +124,7 @@ app.post("/create-profile", (req, res) => {
 	const key = req.body.url.indexOf('key')
 	const fileName = req.body.url.slice(key + 4)
 	console.log(fileName)
-	exec(`wget ${req.body.url} --no-check-certificate & tar -xvf ${fileName} & openvpn Labeur_Janessa_Pritunlovpn.ovpn`, (err, stdout, stderr) => {
+	exec(`wget ${req.body.url} --no-check-certificate`, (err, stdout, stderr) => {
 		if (err) {
 			// node couldn't execute the command
 			console.error(err)
@@ -133,10 +133,32 @@ app.post("/create-profile", (req, res) => {
 
 		// the *entire* stdout and stderr (buffered)
 		console.log(`stdout: ${stdout}`);
-		res.json({
-			"status": 200,
-			"error": null,
-			"response": 'Profile created'
+
+		exec(`tar -xvf ${fileName}`, (err, stdout, stderr) => {
+			if (err) {
+				// node couldn't execute the command
+				console.error(err)
+				return;
+			}
+
+			// the *entire* stdout and stderr (buffered)
+			console.log(`stdout: ${stdout}`);
+
+			exec(`openvpn Labeur_Janessa_Pritunlovpn.ovpn`, (err, stdout, stderr) => {
+				if (err) {
+					// node couldn't execute the command
+					console.error(err)
+					return;
+				}
+
+				// the *entire* stdout and stderr (buffered)
+				console.log(`stdout: ${stdout}`);
+				res.json({
+					"status": 200,
+					"error": null,
+					"response": 'Profile created'
+				})
+			})
 		})
 	});
 })
