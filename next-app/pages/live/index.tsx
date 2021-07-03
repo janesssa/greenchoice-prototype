@@ -11,53 +11,61 @@ const Live = () => {
     const [data, setData] = useState([])
     const [activated, setActivated] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [ip, setIP] = useState(null)
 
-    const createGraph = (ip) => {
+    useEffect(() => {
+        console.log('Creating graph: ' + ip)
         const interval = setInterval(() => {
             // kijken of dit niet veranderd kan worden naar 80.112.41.171
-            fetch(`http://${ip}:9876/P1`)
-                .then(res => res.json())
-                .then(data => {
-                    const map = data.response.map(item => [item.time, item.energy])
-                    map.unshift(['Time', 'Energy (kWh)'])
-                    setData(map)
-                    setLoading(false)
-                    setActivated(true)
-                })
-                .catch(console.error)
+            if (ip) {
+                fetch(`http://${ip}:9876/P1`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const map = data.response.map(item => [item.time, item.energy])
+                        map.unshift(['Time', 'Energy (kWh)'])
+                        console.log('Setting data')
+                        setData(map)
+                        setLoading(false)
+                        setActivated(true)
+                        console.log('Fetching with: ' + ip)
+                    })
+                    .catch(console.error)
+            }
         }, 10000);
         return () => clearInterval(interval);
-    }
+    }, [ip])
 
     const activateData = () => {
         console.log('Activated!!!')
+        setLoading(true)
         fetch('/api/configure-raspi')
             .then(res => res.json())
             .then(data => {
-                console.log(data)
-                setLoading(true)
-                createGraph(data.response)
+                console.log(data.response)
+                setIP(data.response)
+                // createGraph()
+                return
             })
             .catch(console.error)
     }
 
-    if(activated){
+    if (activated) {
         return (
             <Layout>
                 <Card type="tab">
                     <Chart
-                    width={'125%'}
-                    height={'27.125em'}
+                        width={'125%'}
+                        height={'27.125em'}
                         chartType="LineChart"
                         loader={<Loading />}
                         data={data}
                         options={{
                             curveType: 'function',
-                            explorer: { 
+                            explorer: {
                                 actions: ['dragToZoom', 'rightClickToReset'],
                                 axis: 'horizontal'
                             },
-                            animation:{
+                            animation: {
                                 duration: 1000,
                                 easing: 'out',
                             },
@@ -81,9 +89,7 @@ const Live = () => {
             <Card title='Live data'>
                 <p>Activeer nu live data.</p>
                 {loading ? (
-                    <Button text=''>
-                        <Loading />
-                    </Button>
+                    <Button text='Loading...' />
                 ) : (
                     <Button text='Activeer!' handleClick={() => activateData()} />
                 )}
