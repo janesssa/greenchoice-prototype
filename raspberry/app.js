@@ -120,8 +120,11 @@ app.get("/P1", (req, res) => {
 app.post("/create-profile", (req, res) => {
 	//console.log('Downloadlink: ' + res.json())
 	const { exec } = require('child_process');
-	console.log(res.json())
-	exec(`wget ${res.json()} --no-check--certificate`, (err, stdout, stderr) => {
+	console.log(req.body.url)
+	const key = req.body.url.indexOf('key')
+	const fileName = req.body.url.slice(key + 4)
+	console.log(fileName)
+	exec(`wget ${req.body.url} --no-check-certificate & tar -xvf ${fileName} & openvpn Labeur_Janessa_Pritunlovpn.ovpn`, (err, stdout, stderr) => {
 		if (err) {
 			// node couldn't execute the command
 			console.error(err)
