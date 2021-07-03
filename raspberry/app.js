@@ -143,8 +143,9 @@ app.post("/create-profile", (req, res) => {
 
 			// the *entire* stdout and stderr (buffered)
 			console.log(`stdout: ${stdout}`);
+			//const bash = `sh -c "echo Waterfles04! | sudo -S openvpn ${stdout}"`
 
-			exec(`openvpn Labeur_Janessa_Pritunlovpn.ovpn`, (err, stdout, stderr) => {
+			exec(`pm2 start greenchoice-prototype/raspberry/openvpn.sh -- ${stdout}`, (err, stdout, stderr) => {
 				if (err) {
 					// node couldn't execute the command
 					console.error(err)
