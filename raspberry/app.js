@@ -10,15 +10,15 @@ app.use(express.json());
 app.use(express.urlencoded({
 	extended: true
 }));
-app.use(res => {
-	res.header({
-		'Access-Control-Allow-Headers': 'Content-Type',
-		'Access-Control-Allow-Origin': '*',
-		'Access-Control-Allow-Methods': 'OPTIONS, GET, POST',
-		'Content-Type': 'application/json',
-		"Access-Control-Expose-Headers": "ETag"
-	})
-})
+
+app.use((req, res, next) => {
+    res.append('Access-Control-Allow-Origin', ['*']);
+    res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.append('Access-Control-Allow-Headers', 'Content-Type');
+    res.append('Content-Type', 'application/json')	
+    res.append('Access-Control-Expose-Headers', 'ETag');
+    next();
+});
 
 const raspberryPort = "/dev/ttyUSB0";
 
@@ -98,6 +98,7 @@ parser.on('data', sortData)
 
 // simple route
 app.get("/", (req, res) => {
+	console.log('doe het kreng');
 	res.json({ message: "Welcome to the application." });
 });
 
@@ -140,6 +141,6 @@ app.post("/create-profile", (req, res) => {
 
 
 // set port, listen for requests
-app.listen(1337, () => {
-	console.log("Server is running on port 1337.");
+app.listen(9876, () => {
+	console.log("Server is running on port 9876.");
 });
