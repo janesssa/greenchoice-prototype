@@ -7,3 +7,6 @@
 
 ## Find full project
 On [Github](https://github.com/janesssa/greenchoice-prototype) the newest version can be found
+
+## Warning
+Don't merge this branch!
