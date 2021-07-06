@@ -1,4 +1,5 @@
-import express from 'express';
+const express = require('express')
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
 
@@ -6,36 +7,23 @@ app.use(express.json());
 app.use(express.urlencoded({
 	extended: true
 }));
-app.use(res => {
-	res.header({
-		"Access-Control-Allow-Headers": "Content-Type",
-		"Access-Control-Allow-Origin": "*",
-		"Access-Control-Allow-Methods": "OPTIONS, GET",
-		'Content-Type': 'application/json'
-	})
-})
-
+app.use((req, res, next) => {
+		res.append('Access-Control-Allow-Origin', ['*']);
+		res.append('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+		res.append('Access-Control-Allow-Headers', 'Content-Type');
+		res.append('Content-Type', 'application/json')
+		res.append('Access-Control-Expose-Headers', 'ETag');
+		next();
+});
 // simple route
 app.get("/", (req, res) => {
 	res.json({ message: "Welcome to the VPN server." });
 });
 
-app.post("/create-profile", async (req, res) => {
-	console.log('Hoi ik ben de vpn met creds: ' + res.json())
-	const { exec } = require('child_process');
-	exec('pritunl-client add 168.119.59.191://demo.pritunl.com/ku/rBCDSgw5', (err, stdout, stderr) => {
-	if (err) {
-		// node couldn't execute the command
-		console.error(err)
-		return;
-	}
+app.use('/P1', createProxyMiddleware({ target: 'http://192.168.246.2:9876', changeOrigin: true }));
 
-		// the *entire* stdout and stderr (buffered)
-		console.log(`stdout: ${stdout}`);
-	});
-})
 
 // set port, listen for requests
-app.listen(8080, () => {
-	console.log("Server is running on port 1337.");
+app.listen(8081, () => {
+	console.log("Server is running on port 8081.");
 });
