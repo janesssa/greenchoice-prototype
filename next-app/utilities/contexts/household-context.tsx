@@ -30,7 +30,7 @@ export const HouseholdProvider = ({ children }) => {
     const [householdID, setHouseholdID] = useState<string>('');
     const [access_token, setAccessToken] = useState<string>('');
     const [response, setResponse] = useState<{}>({});
-    const [selection, setSelection] = useState<string>('');
+    const [selection, setSelection] = useState<string>('Totale verbruik');
 
     return (
         <HouseholdContext.Provider value={{

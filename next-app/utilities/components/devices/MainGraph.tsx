@@ -4,6 +4,7 @@ import { primary, primaryDark, secondaryA, secondaryB, secondaryD, secondaryI, s
 import Loading from 'utilities/components/atoms/Loading'
 import Chart from "react-google-charts";
 import { convertWhTokWh } from 'utilities/helpers'
+import data from 'utilities/dummy'
 
 const MainGraph = () => {
     const { householdID, access_token, setSelection } = useHouseholdContext()
@@ -12,39 +13,15 @@ const MainGraph = () => {
     const [unit, setUnit] = useState("energy")
 
     useEffect(() => {
-        const getBreakdown = async () => {
-            return await fetch(
-                `/api/engagement/v2/breakdown/${householdID}/month?fuel=${fuel}&units=${unit}`,
-                {
-                    method: "GET",
-                    headers: { "Authorization": `Bearer ${access_token}` }
-                })
-                .then(res => res.json())
-                .then(date => {
-                    fetch(
-                        `/api/engagement/v2/breakdown/${householdID}/month/${date[0]}?fuel=${fuel}&units=${unit}`,
-                        {
-                            method: "GET",
-                            headers: { "Authorization": `Bearer ${access_token}` }
-                        })
-                        .then(res => res.json())
-                        .then(data => {
-                            let values = []
-                            values.push(["Category", "Usage"])
-                            Object.keys(data.values).forEach(item => {
-                                if (data.values[item][1] !== 0) {
-                                    values.push([item, convertWhTokWh(data.values[item][1])])
-                                }
-                            });
-                            setBreakdown(values)
-                        })
-                        .catch(err => console.error(err))
-                })
-                .catch(err => console.error(err))
+        let values = []
+        values.push(["Category", "Usage"])
+        Object.keys(data).forEach(item => {
+            if (data[item][1] !== 0 && item !== 'date' && item !== 'Totale verbruik') {
+                values.push([item, data[item]["Jouw verbruik"]])
+            }
+        });
+        setBreakdown(values)
 
-        }
-
-        getBreakdown()
     }, [householdID, access_token, fuel, unit])
 
 
@@ -72,10 +49,10 @@ const MainGraph = () => {
                     callback: ({ chartWrapper }) => {
                         const chart = chartWrapper.getChart()
                         const selection = chart.getSelection()
-                        if(selection[0] === undefined){
-                            setSelection('')
+                        if (selection[0] === undefined) {
+                            setSelection('Totale verbruik')
                         } else {
-                            setSelection(breakdown[selection[0].row + 1])
+                            setSelection(breakdown[selection[0].row + 1][0])
                         }
                     }
                 }]}
