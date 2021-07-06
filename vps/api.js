@@ -21,11 +21,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/P1", (req, res) => {
-
-// ifconfig tun1 | grep 192 
-// proxy naar 192.168.246.2 -> ip adres van raspi die met vpn verbonden is.
-
-	res.json({ message: "Welcome to the VPN server." });
+	
 });
 
 // set port, listen for requests

@@ -38,12 +38,17 @@ const Live = () => {
         const interval = setInterval(() => {
             if (ip) {
                 console.log('Fetching with: ' + ip)
-                fetch(`http://${ip}:9876/P1`)
+                fetch(`api/access-data`, {
+                    method: 'POST',
+                    body: JSON.stringify({ 'ip': ip})
+                })
                     .then(res => res.json())
                     .then(data => {
+                        if(data.status === 400){
+                            return
+                        }
                         const map = data.response.map(item => [item.time, item.energy])
                         map.unshift(['Time', 'Energy (kWh)'])
-                        console.log(map)
                         setData(map)
                         setLoading(false)
                         setFinding(false)
