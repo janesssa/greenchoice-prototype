@@ -61,7 +61,6 @@ const Live = () => {
         fetch('/api/configure-raspi')
             .then(res => res.json())
             .then(data => {
-                console.log(data.response)
                 setIP(data.response)
                 return
             })
@@ -114,7 +113,7 @@ const Live = () => {
         return (
             <Layout>
                 <Card title='Live data'>
-                    <p>Er wordt gekeken of de functionaliteit al geactiveerd is.</p>
+                    <p>Data ophalen...</p>
                 </Card>
             </Layout>
         )
