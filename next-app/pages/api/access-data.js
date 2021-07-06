@@ -19,7 +19,6 @@ export default async (req, res) => {
     const ip = JSON.parse(req.body).ip
 
     const data = await getData(ip).then(res => res.json()).catch(console.error)
-    console.log(data)
 
     if(data !== undefined){
         res.send(JSON.stringify(data))

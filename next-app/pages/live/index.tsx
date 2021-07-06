@@ -44,13 +44,11 @@ const Live = () => {
                 })
                     .then(res => res.json())
                     .then(data => {
-                        console.log(data)
                         if(data.status === 400){
                             return
                         }
                         const map = data.response.map(item => [item.time, item.energy])
                         map.unshift(['Time', 'Energy (kWh)'])
-                        console.log(map)
                         setData(map)
                         setLoading(false)
                         setFinding(false)
